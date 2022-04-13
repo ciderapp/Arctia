@@ -17,7 +17,54 @@
 		"commands": [{
             "command": "cider-remote.helloWorld",
             "title": "Hello World"
-
+		},
+		{
+			"command": "cider-remote.startPlayback",
+			"title": "Start Playback"
+		},
+		{
+			"command": "cider-remote.stopPlayback",
+			"title": "Stop Playback"
+		},
+		{
+			"command": "cider-remote.playNext",
+			"title": "Play Next"
+		},
+		{
+			"command": "cider-remote.playPrevious",
+			"title": "Play Previous"
+		},
+		{
+			"command": "cider-remote.toggleShuffle",
+			"title": "Toggle Shuffle"
+		},
+		{
+			"command": "cider-remote.toggleRepeat",
+			"title": "Toggle Repeat"
+		},
+		{
+			"command": "cider-remote.toggleMute",
+			"title": "Toggle Mute"
+		},
+		{
+			"command": "cider-remote.setVolume",
+			"title": "Set Volume"
+		},
+		{
+			"command": "cider-remote.setPlaybackPosition",
+			"title": "Set Playback Position"
+		},
+		{
+			"command": "cider-remote.setPlaybackSpeed",
+			"title": "Set Playback Speed"
+		},
+		{
+			"command": "cider-remote.setPlaybackShuffle",
+			"title": "Set Playback Shuffle"
+		},
+		{
+			"command": "cider-remote.setPlaybackRepeat",
+			"title": "Set Playback Repeat"
 		}]
 	},
 	"scripts": {
