@@ -105,25 +105,26 @@ class SidebarProvider {
       <h2 id="name"> </h2>
       <h3 id="artist"> </h3>
       <p id="album"> </p>
-      <button onclick="
+      <br>
+      <button id="play-button" onclick="
           tsvscode.postMessage({
             type: 'onPlay',
             value: ''
           });
       ">Play</button>
-      <button onclick="
+      <button id="pause-button" onclick="
           tsvscode.postMessage({
             type: 'onPause',
             value: ''
           });
       ">Pause</button>
-      <button onclick="
+      <button id="next-button" onclick="
           tsvscode.postMessage({
             type: 'onNextSong',
             value: ''
           });
       ">Next Song</button>
-      <button onclick="
+      <button id="previous-button" onclick="
           tsvscode.postMessage({
             type: 'onPreviousSong',
             value: ''
@@ -147,6 +148,16 @@ class SidebarProvider {
             }
             if (JSON.parse(e.data).data.albumName !== undefined) {
               albumElement.innerText = JSON.parse(e.data).data.albumName;
+            }
+
+            if (JSON.parse(e.data).data.status !== undefined) {
+              if (JSON.parse(e.data).data.status == true) {
+                document.getElementById("play-button").style.display = "none";
+                document.getElementById("pause-button").style.display = "block";
+              } else {
+                document.getElementById("pause-button").style.display = "none";
+                document.getElementById("play-button").style.display = "block";
+              }
             }
           }
         }
