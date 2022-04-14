@@ -49,7 +49,6 @@ function activate(context) {
 		previous();
 	}));
 
-	let self = this;
 	socket = new WebSocket(`ws://localhost:26369`);
 	socket.onopen = (e) => {
 		console.log(e);
