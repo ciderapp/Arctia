@@ -106,7 +106,7 @@ class SidebarProvider {
       <h3 id="artist"> </h3>
       <p id="album"> </p>
       <br>
-      <input id="playback-slider" type="range" id="volume" min="0">
+      <input id="playback-slider" type="range" id="volume" min="0" oninput="updatePlaybackSlider()">
       <button id="play-button" onclick="
           tsvscode.postMessage({
             type: 'onPlay',
@@ -137,6 +137,21 @@ class SidebarProvider {
         let artistElement = document.getElementById("artist");
         let albumElement = document.getElementById("album");
         let playbackSlider = document.getElementById("playback-slider");
+
+        function updatePlaybackSlider() {
+          seekTo(playbackSlider.value);
+          console.log(playbackSlider.value);
+        }
+
+        function seekTo(time, adjust = true) {
+          if (adjust) {
+              time = parseInt(time / 1000)
+          }
+          socket.send(JSON.stringify({
+              action: "seek",
+              time: time
+          }));
+        }
         
         socket = new WebSocket("ws://localhost:26369");
         socket.onopen = (e) => {
