@@ -182,9 +182,6 @@ class SidebarProvider {
             if (playbackSlider.max == null) {
               playbackSlider.style.display = "none";
             }
-            if (playbackSlider.max == 0) {
-              playbackSlider.style.display = "none";
-            }
             if (JSON.parse(e.data).data.durationInMillis !== undefined) {
               if (playbackSlider.style.display == "none") {
                 playbackSlider.style.display = "block";

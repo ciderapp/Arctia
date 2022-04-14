@@ -40,7 +40,7 @@
 				{
 					"id": "cider-remote-sidebar-view",
 					"title": "Cider Remote",
-					"icon": "smartphone.svg"
+					"icon": "cider-icon.svg"
 				}
 			]
 		},
@@ -50,7 +50,7 @@
 					"type": "webview",
 					"id": "cider-remote-sidebar",
 					"name": "Cider Remote",
-					"icon": "smartphone.svg",
+					"icon": "cider-icon.svg",
 					"contextualTitle": "Cider Remote"
 				}
 			]
