@@ -10,62 +10,35 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:cider-remote.helloWorld"
+        "onCommand:cider-remote.helloWorld",
+		"onView:cider-remote-view"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [{
             "command": "cider-remote.helloWorld",
             "title": "Hello World"
+		}],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "cider-remote-sidebar-view",
+					"title": "Cider Remote",
+					"icon": "cider-remote.svg"
+				}
+			]
 		},
-		{
-			"command": "cider-remote.startPlayback",
-			"title": "Start Playback"
-		},
-		{
-			"command": "cider-remote.stopPlayback",
-			"title": "Stop Playback"
-		},
-		{
-			"command": "cider-remote.playNext",
-			"title": "Play Next"
-		},
-		{
-			"command": "cider-remote.playPrevious",
-			"title": "Play Previous"
-		},
-		{
-			"command": "cider-remote.toggleShuffle",
-			"title": "Toggle Shuffle"
-		},
-		{
-			"command": "cider-remote.toggleRepeat",
-			"title": "Toggle Repeat"
-		},
-		{
-			"command": "cider-remote.toggleMute",
-			"title": "Toggle Mute"
-		},
-		{
-			"command": "cider-remote.setVolume",
-			"title": "Set Volume"
-		},
-		{
-			"command": "cider-remote.setPlaybackPosition",
-			"title": "Set Playback Position"
-		},
-		{
-			"command": "cider-remote.setPlaybackSpeed",
-			"title": "Set Playback Speed"
-		},
-		{
-			"command": "cider-remote.setPlaybackShuffle",
-			"title": "Set Playback Shuffle"
-		},
-		{
-			"command": "cider-remote.setPlaybackRepeat",
-			"title": "Set Playback Repeat"
-		}]
+		"views": {
+			"cider-remote-sidebar-view": [
+				{
+					"type": "webview",
+					"id": "cider-remote-sidebar",
+					"name": "Cider Remote",
+					"icon": "smartphone.svg",
+					"contextualTitle": "Cider Remote"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"lint": "eslint .",

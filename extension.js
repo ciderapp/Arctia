@@ -2,6 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const WebSocket = require('ws');
+const { CiderRemotePanel } = require('./CiderRemotePanel');
+const { SidebarProvider } = require('./SidebarProvider');
 var socket;
 
 // this method is called when your extension is activated
@@ -11,16 +13,17 @@ var socket;
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "cider-remote" is now active!');
+	const sideBarProvider = new SidebarProvider(context.extensionUri);
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider("cider-remote-sidebar", sideBarProvider)
+	);
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	context.subscriptions.push(vscode.commands.registerCommand('cider-remote.helloWorld', function () {
 		vscode.window.showInformationMessage('Hello World from Cider Remote!');
+		CiderRemotePanel.createOrShow(context.extensionUri);
 	}));
 
 	// Register command to start/stop playback
