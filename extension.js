@@ -62,19 +62,13 @@ function activate(context) {
     }));
     exports.socket = new ws_1.WebSocket(`ws://localhost:26369`);
     exports.socket.onopen = (e) => {
-        console.log(e);
         vscode.window.showInformationMessage('Cider Remote successfully connected to Cider.');
         exports.socket.onclose = (e) => {
-            console.log(e);
             vscode.window.showInformationMessage('Cider Remote disconnected from Cider.');
         };
         exports.socket.onerror = (e) => {
             console.log(e);
             vscode.window.showErrorMessage('Cider Remote connection error.');
-        };
-        exports.socket.onmessage = (e) => {
-            exports.wsMessage = e;
-            console.log('Cider Remote received message from Cider.');
         };
     };
 }
