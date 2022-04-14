@@ -165,8 +165,10 @@ class SidebarProvider {
             }
 
             // Playback Slider
-            (JSON.parse(e.data).data.remainingTime !== undefined && JSON.parse(e.data).data.durationInMillis !== undefined) {
+            if (JSON.parse(e.data).data.durationInMillis !== undefined) {
               playbackSlider.max = JSON.parse(e.data).data.durationInMillis;
+            }
+            if (JSON.parse(e.data).data.remainingTime !== undefined && JSON.parse(e.data).data.durationInMillis !== undefined) {
               playbackSlider.value = JSON.parse(e.data).data.durationInMillis - JSON.parse(e.data).data.remainingTime;
             }
           }
