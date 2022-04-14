@@ -20,6 +20,22 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     webviewView.webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
+        case "onPlay": {
+          vscode.commands.executeCommand("cider-remote.play");
+          break;
+        }
+        case "onPause": {
+          vscode.commands.executeCommand("cider-remote.pause");
+          break;
+        }
+        case "onNextSong": {
+          vscode.commands.executeCommand("cider-remote.nextSong");
+          break;
+        }
+        case "onPreviousSong": {
+          vscode.commands.executeCommand("cider-remote.previousSong");
+          break;
+        }
         case "onInfo": {
           if (!data.value) {
             return;
@@ -61,9 +77,36 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         <meta http-equiv="Content-Security-Policy" content="img-src https: data:; style-src 'unsafe-inline'>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<link href="" rel="stylesheet">
+        <script>
+          const tsvscode = acquireVsCodeApi();
+        </script>
 			</head>
       <body>
-      <h1>Hello World!</h1>
+      <h1>Cider Remote</h1>
+      <button onclick="
+          tsvscode.postMessage({
+            type: 'onPlay',
+            value: ''
+          });
+      ">Play</button>
+      <button onclick="
+          tsvscode.postMessage({
+            type: 'onPause',
+            value: ''
+          });
+      ">Pause</button>
+      <button onclick="
+          tsvscode.postMessage({
+            type: 'onNextSong',
+            value: ''
+          });
+      ">Next Song</button>
+      <button onclick="
+          tsvscode.postMessage({
+            type: 'onPreviousSong',
+            value: ''
+          });
+      ">Previous Song</button>
 			</body>
 			</html>`;
   }

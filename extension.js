@@ -24,13 +24,14 @@ function activate(context) {
 		vscode.window.showInformationMessage('Hello World from Cider Remote!');
 	}));
 
-	// Register command to start/stop playback
-	context.subscriptions.push(vscode.commands.registerCommand('cider-remote.start', function () {
+	// Register command to play
+	context.subscriptions.push(vscode.commands.registerCommand('cider-remote.play', function () {
 		vscode.window.showInformationMessage('Cider Playback Started!');
 		play();
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('cider-remote.stop', function () {
+	// Regsiter command to pause
+	context.subscriptions.push(vscode.commands.registerCommand('cider-remote.pause', function () {
 		vscode.window.showInformationMessage('Cider Playback Stopped!');
 		pause();
 	}));

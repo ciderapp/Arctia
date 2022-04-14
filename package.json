@@ -17,7 +17,23 @@
 	"contributes": {
 		"commands": [{
             "command": "cider-remote.helloWorld",
-            "title": "Hello World"
+            "title": "Cider: Hello World"
+		},
+		{
+            "command": "cider-remote.play",
+            "title": "Cider: Play"
+		},
+		{
+            "command": "cider-remote.pause",
+            "title": "Cider: Pause"
+		},
+		{
+            "command": "cider-remote.nextSong",
+            "title": "Cider: Next Song"
+		},
+		{
+            "command": "cider-remote.previousSong",
+            "title": "Cider: Previous Song"
 		}],
 		"viewsContainers": {
 			"activitybar": [
