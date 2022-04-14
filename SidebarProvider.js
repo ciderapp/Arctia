@@ -112,13 +112,13 @@ class SidebarProvider {
             type: 'onPlay',
             value: ''
           });
-      ">Play</button>
+      " style="display: none;">Play</button>
       <button id="pause-button" onclick="
           tsvscode.postMessage({
             type: 'onPause',
             value: ''
           });
-      ">Pause</button>
+      " style="display: none;">Pause</button>
       <button id="next-button" onclick="
           tsvscode.postMessage({
             type: 'onNextSong',
