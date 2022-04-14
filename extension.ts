@@ -1,13 +1,9 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { SidebarProvider } from './SidebarProvider';
 import { WebSocket } from 'ws';
 export var socket: WebSocket;
 export var wsMessage: any;
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -18,9 +14,6 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.registerWebviewViewProvider("cider-remote-sidebar", sideBarProvider)
 	);
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with  registerCommand
-	// The commandId parameter must match the command field in package.json
 	context.subscriptions.push(vscode.commands.registerCommand('cider-remote.helloWorld', function () {
 		vscode.window.showInformationMessage('Hello World from Cider Remote!');
 		console.log(socket)
@@ -32,7 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 		play();
 	}));
 
-	// Regsiter command to pause
+	// Register command to pause
 	context.subscriptions.push(vscode.commands.registerCommand('cider-remote.pause', function () {
 		vscode.window.showInformationMessage('Cider Playback Stopped!');
 		pause();
@@ -89,8 +82,6 @@ function previous() {
 	}))
 }
 
-
-// this method is called when your extension is deactivated
 function deactivate() {}
 
 module.exports = {

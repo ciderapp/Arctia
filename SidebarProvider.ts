@@ -1,5 +1,4 @@
 import * as vscode from "vscode";
-import { wsMessage } from "./extension";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
@@ -11,10 +10,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     this._view = webviewView;
 
     webviewView.webview.options = {
-      // Allow scripts in the webview
       enableScripts: true,
-
-      localResourceRoots: [this._extensionUri],
+      localResourceRoots: [this._extensionUri]
     };
 
     webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
@@ -38,16 +35,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "onInfo": {
-          if (!mData.value) {
-            return;
-          }
+          if (!mData.value) { return; }
           vscode.window.showInformationMessage(mData.value);
           break;
         }
         case "onError": {
-          if (!mData.value) {
-            return;
-          }
+          if (!mData.value) { return; }
           vscode.window.showErrorMessage(mData.value);
           break;
         }
@@ -175,7 +168,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           }
         }
 
-        
       </script>
 			</body>
 			</html>`;
