@@ -52,25 +52,25 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 }
 
-function play() {
+export function play() {
 	socket.send(JSON.stringify({
 		action: "play"
 	}))
 }
 
-function pause() {
+export function pause() {
 	socket.send(JSON.stringify({
 		action: "pause"
 	}))
 }
 
-function next() {
+export function next() {
 	socket.send(JSON.stringify({
 		action: "next"
 	}))
 }
 
-function previous() {
+export function previous() {
 	socket.send(JSON.stringify({
 		action: "previous"
 	}))

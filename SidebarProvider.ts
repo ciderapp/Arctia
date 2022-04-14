@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { play, pause, next, previous } from "./extension";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;

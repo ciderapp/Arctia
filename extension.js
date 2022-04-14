@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.activate = exports.wsMessage = exports.socket = void 0;
+exports.previous = exports.next = exports.pause = exports.play = exports.activate = exports.wsMessage = exports.socket = void 0;
 const vscode = __importStar(require("vscode"));
 const SidebarProvider_1 = require("./SidebarProvider");
 const ws_1 = require("ws");
@@ -68,21 +68,25 @@ function play() {
         action: "play"
     }));
 }
+exports.play = play;
 function pause() {
     exports.socket.send(JSON.stringify({
         action: "pause"
     }));
 }
+exports.pause = pause;
 function next() {
     exports.socket.send(JSON.stringify({
         action: "next"
     }));
 }
+exports.next = next;
 function previous() {
     exports.socket.send(JSON.stringify({
         action: "previous"
     }));
 }
+exports.previous = previous;
 function deactivate() { }
 module.exports = {
     activate,

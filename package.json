@@ -1,7 +1,7 @@
 {
   "name": "arctia",
 	"displayName": "Project Arctia",
-	"description": "This extension is a remote for the open-source Apple Music client, Cider",
+	"description": "Arctia is a remote controller for Cider, the open-source Apple Music client.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.66.0"
