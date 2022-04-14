@@ -80,7 +80,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         </script>
 			</head>
       <body>
-      <h1>Project Arctia</h1>
+      <h1>Project Arctia (Alpha)</h1>
       <br>
       <h2 id="name"> </h2>
       <h3 id="artist"> </h3>
