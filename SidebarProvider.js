@@ -179,7 +179,7 @@ class SidebarProvider {
             }
 
             // Playback Slider
-            if (playbackSlider.max == 0 && playbackSlider.max == null) {
+            if (playbackSlider.max == 0 || playbackSlider.max == null) {
               playbackSlider.style.display = "none";
             }
             if (JSON.parse(e.data).data.durationInMillis !== undefined) {
