@@ -28,40 +28,32 @@ const ws_1 = require("ws");
  */
 function activate(context) {
     const sideBarProvider = new SidebarProvider_1.SidebarProvider(context.extensionUri);
-    context.subscriptions.push(vscode.window.registerWebviewViewProvider("cider-remote-sidebar", sideBarProvider));
-    context.subscriptions.push(vscode.commands.registerCommand('cider-remote.helloWorld', function () {
-        vscode.window.showInformationMessage('Hello World from Cider Remote!');
-        console.log(exports.socket);
-    }));
+    context.subscriptions.push(vscode.window.registerWebviewViewProvider("arctia-sidebar", sideBarProvider));
     // Register command to play
-    context.subscriptions.push(vscode.commands.registerCommand('cider-remote.play', function () {
-        vscode.window.showInformationMessage('Cider Playback Started!');
+    context.subscriptions.push(vscode.commands.registerCommand('arctia.play', function () {
         play();
     }));
     // Register command to pause
-    context.subscriptions.push(vscode.commands.registerCommand('cider-remote.pause', function () {
-        vscode.window.showInformationMessage('Cider Playback Stopped!');
+    context.subscriptions.push(vscode.commands.registerCommand('arctia.pause', function () {
         pause();
     }));
     // Register command to go to next song
-    context.subscriptions.push(vscode.commands.registerCommand('cider-remote.nextSong', function () {
-        vscode.window.showInformationMessage('Next Song from Cider Remote!');
+    context.subscriptions.push(vscode.commands.registerCommand('arctia.nextSong', function () {
         next();
     }));
     // Register command to go to previous song
-    context.subscriptions.push(vscode.commands.registerCommand('cider-remote.previousSong', function () {
-        vscode.window.showInformationMessage('Previous Song from Cider Remote!');
+    context.subscriptions.push(vscode.commands.registerCommand('arctia.previousSong', function () {
         previous();
     }));
     exports.socket = new ws_1.WebSocket(`ws://localhost:26369`);
     exports.socket.onopen = (e) => {
-        vscode.window.showInformationMessage('Cider Remote successfully connected to Cider.');
+        vscode.window.showInformationMessage('Project Arctia successfully connected to Cider.');
         exports.socket.onclose = (e) => {
-            vscode.window.showInformationMessage('Cider Remote disconnected from Cider.');
+            vscode.window.showInformationMessage('Project Arctia disconnected from Cider.');
         };
         exports.socket.onerror = (e) => {
             console.log(e);
-            vscode.window.showErrorMessage('Cider Remote connection error.');
+            vscode.window.showErrorMessage('Project Arctia connection error.');
         };
     };
 }
