@@ -179,10 +179,19 @@ class SidebarProvider {
             }
 
             // Playback Slider
+            if (playbackSlider.max == 0 && playbackSlider.max == null) {
+              playbackSlider.style.display = "none";
+            }
             if (JSON.parse(e.data).data.durationInMillis !== undefined) {
+              if (playbackSlider.style.display == "none") {
+                playbackSlider.style.display = "block";
+              }
               playbackSlider.max = JSON.parse(e.data).data.durationInMillis;
             }
             if (JSON.parse(e.data).data.remainingTime !== undefined && JSON.parse(e.data).data.durationInMillis !== undefined) {
+              if (playbackSlider.style.display == "none") {
+                playbackSlider.style.display = "block";
+              }
               playbackSlider.value = JSON.parse(e.data).data.durationInMillis - JSON.parse(e.data).data.remainingTime;
             }
           }
