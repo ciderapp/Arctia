@@ -2,8 +2,9 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { SidebarProvider } from './SidebarProvider';
-var socket: WebSocket;
-var dataJSON;
+import { WebSocket } from 'ws';
+export var socket: WebSocket;
+export var wsMessage: any;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -65,11 +66,10 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		socket.onmessage = (e) => {
-			dataJSON = JSON.parse(e.data);
+			wsMessage = e
 			console.log('Cider Remote received message from Cider.');
 		}
 	}
-
 }
 
 function play() {

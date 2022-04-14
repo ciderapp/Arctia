@@ -42,8 +42,8 @@ class SidebarProvider {
             localResourceRoots: [this._extensionUri],
         };
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-        webviewView.webview.onDidReceiveMessage((data) => __awaiter(this, void 0, void 0, function* () {
-            switch (data.type) {
+        webviewView.webview.onDidReceiveMessage((mData) => __awaiter(this, void 0, void 0, function* () {
+            switch (mData.type) {
                 case "onPlay": {
                     vscode.commands.executeCommand("cider-remote.play");
                     break;
@@ -61,17 +61,17 @@ class SidebarProvider {
                     break;
                 }
                 case "onInfo": {
-                    if (!data.value) {
+                    if (!mData.value) {
                         return;
                     }
-                    vscode.window.showInformationMessage(data.value);
+                    vscode.window.showInformationMessage(mData.value);
                     break;
                 }
                 case "onError": {
-                    if (!data.value) {
+                    if (!mData.value) {
                         return;
                     }
-                    vscode.window.showErrorMessage(data.value);
+                    vscode.window.showErrorMessage(mData.value);
                     break;
                 }
             }
@@ -101,6 +101,7 @@ class SidebarProvider {
 			</head>
       <body>
       <h1>Cider Remote</h1>
+      <h3 id="songTitle">Song Title</h3>
       <button onclick="
           tsvscode.postMessage({
             type: 'onPlay',
@@ -125,6 +126,24 @@ class SidebarProvider {
             value: ''
           });
       ">Previous Song</button>
+
+      <script>
+        let songTitleElement = document.getElementById("songTitle");
+        
+        socket = new WebSocket("ws://localhost:26369");
+        socket.onopen = (e) => {
+          socket.onmessage = (e) => {
+            console.log('Arctia received message from Cider.');
+            if (JSON.parse(e.data).data.artistName !== undefined) {
+              songTitleElement.innerText = JSON.parse(e.data).data.artistName;
+            }
+          }
+        }
+
+        if (JSON.parse(e.data).data.artistName !== undefined) {
+          console.log(JSON.parse(e.data).data.artistName);
+        }
+      </script>
 			</body>
 			</html>`;
     }
