@@ -20,19 +20,19 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage(async (mData) => {
       switch (mData.type) {
         case "onPlay": {
-          vscode.commands.executeCommand("arctia.play");
+          play();
           break;
         }
         case "onPause": {
-          vscode.commands.executeCommand("arctia.pause");
+          pause();
           break;
         }
         case "onNextSong": {
-          vscode.commands.executeCommand("arctia.nextSong");
+          next();
           break;
         }
         case "onPreviousSong": {
-          vscode.commands.executeCommand("arctia.previousSong");
+          previous();
           break;
         }
         case "onInfo": {

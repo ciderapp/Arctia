@@ -30,6 +30,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SidebarProvider = void 0;
 const vscode = __importStar(require("vscode"));
+const extension_1 = require("./extension");
 class SidebarProvider {
     constructor(_extensionUri) {
         this._extensionUri = _extensionUri;
@@ -44,19 +45,19 @@ class SidebarProvider {
         webviewView.webview.onDidReceiveMessage((mData) => __awaiter(this, void 0, void 0, function* () {
             switch (mData.type) {
                 case "onPlay": {
-                    vscode.commands.executeCommand("arctia.play");
+                    (0, extension_1.play)();
                     break;
                 }
                 case "onPause": {
-                    vscode.commands.executeCommand("arctia.pause");
+                    (0, extension_1.pause)();
                     break;
                 }
                 case "onNextSong": {
-                    vscode.commands.executeCommand("arctia.nextSong");
+                    (0, extension_1.next)();
                     break;
                 }
                 case "onPreviousSong": {
-                    vscode.commands.executeCommand("arctia.previousSong");
+                    (0, extension_1.previous)();
                     break;
                 }
                 case "onInfo": {
