@@ -22,6 +22,7 @@ function activate(context) {
 	// The commandId parameter must match the command field in package.json
 	context.subscriptions.push(vscode.commands.registerCommand('cider-remote.helloWorld', function () {
 		vscode.window.showInformationMessage('Hello World from Cider Remote!');
+		console.log(socket)
 	}));
 
 	// Register command to play
@@ -61,6 +62,11 @@ function activate(context) {
 		socket.onerror = (e) => {
 			console.log(e);
 			vscode.window.showErrorMessage('Cider Remote connection error.');
+		}
+
+		socket.onmessage = (e) => {
+			console.log(JSON.parse(e.data));
+			console.log('Cider Remote received message from Cider.');
 		}
 	}
 
