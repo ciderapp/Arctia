@@ -51,16 +51,16 @@ function activate(context) {
 	socket = new WebSocket(`ws://localhost:26369`);
 	socket.onopen = (e) => {
 		console.log(e);
-		console.log('Remote successfully connected to Cider');
+		vscode.window.showInformationMessage('Cider Remote successfully connected to Cider.');
 
 		socket.onclose = (e) => {
 			console.log(e);
-			console.log('Remote disconnected from Cider');
+			vscode.window.showInformationMessage('Cider Remote disconnected from Cider.');
 		}
 
 		socket.onerror = (e) => {
 			console.log(e);
-			console.log('Remote connection error');
+			vscode.window.showErrorMessage('Cider Remote connection error.');
 		}
 	}
 
