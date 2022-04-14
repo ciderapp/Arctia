@@ -106,6 +106,7 @@ class SidebarProvider {
       <h3 id="artist"> </h3>
       <p id="album"> </p>
       <br>
+      <input id="playback-slider" type="range" id="volume" min="0">
       <button id="play-button" onclick="
           tsvscode.postMessage({
             type: 'onPlay',
@@ -135,11 +136,13 @@ class SidebarProvider {
         let nameElement = document.getElementById("name");
         let artistElement = document.getElementById("artist");
         let albumElement = document.getElementById("album");
+        let playbackSlider = document.getElementById("playback-slider");
         
         socket = new WebSocket("ws://localhost:26369");
         socket.onopen = (e) => {
           socket.onmessage = (e) => {
             console.log('Arctia received message from Cider.');
+            // Playback Info
             if (JSON.parse(e.data).data.name !== undefined) {
               nameElement.innerText = JSON.parse(e.data).data.name;
             }
@@ -150,6 +153,7 @@ class SidebarProvider {
               albumElement.innerText = JSON.parse(e.data).data.albumName;
             }
 
+            // Play/Pause Logic
             if (JSON.parse(e.data).data.status !== undefined) {
               if (JSON.parse(e.data).data.status == true) {
                 document.getElementById("play-button").style.display = "none";
@@ -159,6 +163,13 @@ class SidebarProvider {
                 document.getElementById("play-button").style.display = "block";
               }
             }
+
+            // Playback Slider
+            if (JSON.parse(e.data).data.durationInMillis !== undefined) {
+              playbackSlider.max = JSON.parse(e.data).data.durationInMillis;
+              console.log(JSON.parse(e.data).data.durationInMillis)
+            }
+            //playbackSlider.value = JSON.parse(e.data).data.durationInMillis - JSON.parse(e.data).data.remainingTime;
           }
         }
 
