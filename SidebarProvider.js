@@ -37,9 +37,8 @@ class SidebarProvider {
     resolveWebviewView(webviewView) {
         this._view = webviewView;
         webviewView.webview.options = {
-            // Allow scripts in the webview
             enableScripts: true,
-            localResourceRoots: [this._extensionUri],
+            localResourceRoots: [this._extensionUri]
         };
         webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
         webviewView.webview.onDidReceiveMessage((mData) => __awaiter(this, void 0, void 0, function* () {
@@ -189,7 +188,6 @@ class SidebarProvider {
           }
         }
 
-        
       </script>
 			</body>
 			</html>`;
