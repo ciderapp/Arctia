@@ -87,7 +87,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 			</head>
       <body>
       <h1>Cider Remote</h1>
-      <h3 id="songTitle">Song Title</h3>
+      <br>
+      <h2 id="name"> </h2>
+      <h3 id="artist"> </h3>
+      <p id="album"> </p>
       <button onclick="
           tsvscode.postMessage({
             type: 'onPlay',
@@ -114,21 +117,27 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       ">Previous Song</button>
 
       <script>
-        let songTitleElement = document.getElementById("songTitle");
+        let nameElement = document.getElementById("name");
+        let artistElement = document.getElementById("artist");
+        let albumElement = document.getElementById("album");
         
         socket = new WebSocket("ws://localhost:26369");
         socket.onopen = (e) => {
           socket.onmessage = (e) => {
             console.log('Arctia received message from Cider.');
+            if (JSON.parse(e.data).data.name !== undefined) {
+              nameElement.innerText = JSON.parse(e.data).data.name;
+            }
             if (JSON.parse(e.data).data.artistName !== undefined) {
-              songTitleElement.innerText = JSON.parse(e.data).data.artistName;
+              artistElement.innerText = JSON.parse(e.data).data.artistName;
+            }
+            if (JSON.parse(e.data).data.albumName !== undefined) {
+              albumElement.innerText = JSON.parse(e.data).data.albumName;
             }
           }
         }
 
-        if (JSON.parse(e.data).data.artistName !== undefined) {
-          console.log(JSON.parse(e.data).data.artistName);
-        }
+        
       </script>
 			</body>
 			</html>`;
