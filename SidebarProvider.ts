@@ -59,11 +59,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   }
 
   private _getHtmlForWebview(webview: vscode.Webview) {
-    const styleResetUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "styles/reset.css")
+
+    const stylesResetUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "styles", "reset.css")
     );
-    const styleVSCodeUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(this._extensionUri, "media", "styles/vscode.css")
+    const stylesMainUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "styles", "vscode.css")
     );
 
     return `<!DOCTYPE html>
@@ -74,9 +75,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 					Use a content security policy to only allow loading images from https or from our extension directory,
 					and only allow scripts that have a specific nonce.
         -->
-        <meta http-equiv="Content-Security-Policy" content="img-src https: data:; style-src 'unsafe-inline'>
+        <meta http-equiv="Content-Security-Policy" content="img-src https: data:; 'unsafe-inline'>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<link href="" rel="stylesheet">
+				<link href="${stylesResetUri}" rel="stylesheet">
+        <link href="${stylesMainUri}" rel="stylesheet">
         <script>
           const tsvscode = acquireVsCodeApi();
         </script>
