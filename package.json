@@ -1,6 +1,6 @@
 {
-  "name": "cider-remote",
-	"displayName": "Cider Remote",
+  "name": "arctia",
+	"displayName": "Project Arctia",
 	"description": "This extension is a remote for the open-source Apple Music client, Cider",
 	"version": "0.0.1",
 	"engines": {
@@ -10,48 +10,48 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:cider-remote.helloWorld",
-		"onView:cider-remote-sidebar"
+        "onCommand:arctia.helloWorld",
+		"onView:arctia-sidebar"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [{
-            "command": "cider-remote.helloWorld",
-            "title": "Cider: Hello World"
+            "command": "arctia.helloWorld",
+            "title": "Arctia: Hello World"
 		},
 		{
-            "command": "cider-remote.play",
-            "title": "Cider: Play"
+            "command": "arctia.play",
+            "title": "Arctia: Play"
 		},
 		{
-            "command": "cider-remote.pause",
-            "title": "Cider: Pause"
+            "command": "arctia.pause",
+            "title": "Arctia: Pause"
 		},
 		{
-            "command": "cider-remote.nextSong",
-            "title": "Cider: Next Song"
+            "command": "arctia.nextSong",
+            "title": "Arctia: Next Song"
 		},
 		{
-            "command": "cider-remote.previousSong",
-            "title": "Cider: Previous Song"
+            "command": "arctia.previousSong",
+            "title": "Arctia: Previous Song"
 		}],
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "cider-remote-sidebar-view",
-					"title": "Cider Remote",
+					"id": "arctia-sidebar-view",
+					"title": "Project Arctia",
 					"icon": "cider-icon.svg"
 				}
 			]
 		},
 		"views": {
-			"cider-remote-sidebar-view": [
+			"arctia-sidebar-view": [
 				{
 					"type": "webview",
-					"id": "cider-remote-sidebar",
-					"name": "Cider Remote",
+					"id": "arctia-sidebar",
+					"name": "Project Arctia",
 					"icon": "cider-icon.svg",
-					"contextualTitle": "Cider Remote"
+					"contextualTitle": "Project Arctia"
 				}
 			]
 		}

@@ -19,19 +19,19 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     webviewView.webview.onDidReceiveMessage(async (mData) => {
       switch (mData.type) {
         case "onPlay": {
-          vscode.commands.executeCommand("cider-remote.play");
+          vscode.commands.executeCommand("arctia.play");
           break;
         }
         case "onPause": {
-          vscode.commands.executeCommand("cider-remote.pause");
+          vscode.commands.executeCommand("arctia.pause");
           break;
         }
         case "onNextSong": {
-          vscode.commands.executeCommand("cider-remote.nextSong");
+          vscode.commands.executeCommand("arctia.nextSong");
           break;
         }
         case "onPreviousSong": {
-          vscode.commands.executeCommand("cider-remote.previousSong");
+          vscode.commands.executeCommand("arctia.previousSong");
           break;
         }
         case "onInfo": {
@@ -79,7 +79,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         </script>
 			</head>
       <body>
-      <h1>Cider Remote</h1>
+      <h1>Project Arctia</h1>
       <br>
       <h2 id="name"> </h2>
       <h3 id="artist"> </h3>

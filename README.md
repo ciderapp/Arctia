@@ -1,6 +1,6 @@
-# cider-remote README
+# arctia README
 
-This is the README for your extension "cider-remote". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "arctia". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
