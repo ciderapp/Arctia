@@ -2,7 +2,6 @@
 // Import the module and reference it with the alias vscode in your code below
 const vscode = require('vscode');
 const WebSocket = require('ws');
-const { CiderRemotePanel } = require('./CiderRemotePanel');
 const { SidebarProvider } = require('./SidebarProvider');
 var socket;
 
@@ -23,7 +22,6 @@ function activate(context) {
 	// The commandId parameter must match the command field in package.json
 	context.subscriptions.push(vscode.commands.registerCommand('cider-remote.helloWorld', function () {
 		vscode.window.showInformationMessage('Hello World from Cider Remote!');
-		CiderRemotePanel.createOrShow(context.extensionUri);
 	}));
 
 	// Register command to start/stop playback
