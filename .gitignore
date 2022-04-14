@@ -2,5 +2,5 @@ node_modules
 .vscode-test/
 *.vsix
 
-SidebarProvider.js
-CiderRemotePanel.js
+/SidebarProvider.js
+/CiderRemotePanel.js
