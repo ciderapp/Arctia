@@ -3,6 +3,7 @@ import { SidebarProvider } from './SidebarProvider';
 import { WebSocket } from 'ws';
 export var socket: WebSocket;
 export var wsMessage: any;
+var messageData: any;
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -14,13 +15,12 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	// Register command to play
-	context.subscriptions.push(vscode.commands.registerCommand('arctia.play', function () {
-		play();
-	}));
-
-	// Register command to pause
-	context.subscriptions.push(vscode.commands.registerCommand('arctia.pause', function () {
-		pause();
+	context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
+		if (JSON.parse(messageData.data).data.status == true) {
+			pause();
+		} else {
+			play();
+		}
 	}));
 
 	// Register command to go to next song
@@ -44,6 +44,10 @@ export function activate(context: vscode.ExtensionContext) {
 		socket.onerror = (e) => {
 			console.log(e);
 			vscode.window.showErrorMessage('Project Arctia connection error.');
+		}
+
+		socket.onmessage = (e) => {
+			messageData = e
 		}
 	}
 }

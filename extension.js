@@ -23,6 +23,7 @@ exports.activate = exports.wsMessage = exports.socket = void 0;
 const vscode = __importStar(require("vscode"));
 const SidebarProvider_1 = require("./SidebarProvider");
 const ws_1 = require("ws");
+var messageData;
 /**
  * @param {vscode.ExtensionContext} context
  */
@@ -30,12 +31,13 @@ function activate(context) {
     const sideBarProvider = new SidebarProvider_1.SidebarProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider("arctia-sidebar", sideBarProvider));
     // Register command to play
-    context.subscriptions.push(vscode.commands.registerCommand('arctia.play', function () {
-        play();
-    }));
-    // Register command to pause
-    context.subscriptions.push(vscode.commands.registerCommand('arctia.pause', function () {
-        pause();
+    context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
+        if (JSON.parse(messageData.data).data.status == true) {
+            pause();
+        }
+        else {
+            play();
+        }
     }));
     // Register command to go to next song
     context.subscriptions.push(vscode.commands.registerCommand('arctia.nextSong', function () {
@@ -54,6 +56,9 @@ function activate(context) {
         exports.socket.onerror = (e) => {
             console.log(e);
             vscode.window.showErrorMessage('Project Arctia connection error.');
+        };
+        exports.socket.onmessage = (e) => {
+            messageData = e;
         };
     };
 }
