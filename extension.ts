@@ -1,9 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
-const WebSocket = require('ws');
-const { SidebarProvider } = require('./SidebarProvider');
-var socket;
+import * as vscode from 'vscode';
+import { SidebarProvider } from './SidebarProvider';
+var socket: WebSocket;
+var dataJSON;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -11,7 +11,7 @@ var socket;
 /**
  * @param {vscode.ExtensionContext} context
  */
-function activate(context) {
+export function activate(context: vscode.ExtensionContext) {
 	const sideBarProvider = new SidebarProvider(context.extensionUri);
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider("cider-remote-sidebar", sideBarProvider)
@@ -65,7 +65,7 @@ function activate(context) {
 		}
 
 		socket.onmessage = (e) => {
-			console.log(JSON.parse(e.data));
+			dataJSON = JSON.parse(e.data);
 			console.log('Cider Remote received message from Cider.');
 		}
 	}
