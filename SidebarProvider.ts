@@ -82,7 +82,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       <body>
       <h1>Project Arctia (Alpha)</h1>
       <br>
-      <img alt="Album Artwork" id="album-artwork">
+      <img alt="Album Artwork" id="album-artwork" width="1000" height="1000">
       <h2 id="name"> </h2>
       <h3 id="artist"> </h3>
       <p id="album"> </p>
