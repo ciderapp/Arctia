@@ -10,8 +10,10 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:arctia.helloWorld",
-		"onView:arctia-sidebar"
+		"onView:arctia-sidebar",
+		"onCommand:arctia.playpause",
+		"onCommand:arctia.nextSong",
+		"onCommand:arctia.previousSong"
 	],
 	"main": "./extension.js",
 	"contributes": {
