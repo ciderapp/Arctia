@@ -13,14 +13,28 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.registerWebviewViewProvider("arctia-sidebar", sideBarProvider)
 	);
 
-	// Register command to play
-	context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
+	// Commented out due to status not always being available
+	// Register command to play and pause
+	/*context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
 		if (JSON.parse(messageData.data).data.status == true) {
 			pause();
 		} else {
 			play();
 		}
 	}));
+	*/
+
+	// TEMP FIX
+	// Register command to play
+	context.subscriptions.push(vscode.commands.registerCommand('arctia.play', function () {
+		play();
+	}));
+
+	// Register command to pause
+	context.subscriptions.push(vscode.commands.registerCommand('arctia.pause', function () {
+		pause();
+	}));
+	// TEMP FIX END
 
 	// Register command to go to next song
 	context.subscriptions.push(vscode.commands.registerCommand('arctia.nextSong', function () {
