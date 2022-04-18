@@ -122,13 +122,13 @@ class SidebarProvider {
             value: ''
           });
       " style="display: none;">Pause</button>
-      <button id="next-button" onclick="
+      <button id="next-button" style="display: none;" onclick="
           tsvscode.postMessage({
             type: 'onNextSong',
             value: ''
           });
       ">Next Song</button>
-      <button id="previous-button" onclick="
+      <button id="previous-button" style="display: none;" onclick="
           tsvscode.postMessage({
             type: 'onPreviousSong',
             value: ''
@@ -196,6 +196,15 @@ class SidebarProvider {
                 pauseButton.style.display = "none";
                 playButton.style.display = "block";
               }
+            }
+
+            // Next/Previous Logic
+            if (currentMediaItem.status !== undefined) {
+              nextButton.style.display = "inline-block";
+              previousButton.style.display = "inline-block";
+            } else {
+              nextButton.style.display = "none";
+              previousButton.style.display = "none";
             }
 
             // Playback Slider
