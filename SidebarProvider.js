@@ -191,10 +191,10 @@ class SidebarProvider {
             if (currentMediaItem.status !== undefined) {
               if (currentMediaItem.status == true) {
                 playButton.style.display = "none";
-                pauseButton.style.display = "block";
+                pauseButton.style.display = "inline-block";
               } else {
                 pauseButton.style.display = "none";
-                playButton.style.display = "block";
+                playButton.style.display = "inline-block";
               }
             }
 
