@@ -155,6 +155,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
               albumElement.innerText = currentMediaItem.albumName;
             }
             
+            // Album Artwork
+            if (currentMediaItem.artwork !== undefined) {
+              artworkElement.src = currentMediaItem.artwork.url;
+            }
+            if (currentMediaItem.url !== undefined) {
+              albumLinkElement.href = currentMediaItem.url.appleMusic;
+            }
 
             // Play/Pause Logic
             if (currentMediaItem.status !== undefined) {
