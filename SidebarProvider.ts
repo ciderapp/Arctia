@@ -149,13 +149,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             console.log('Arctia received message from Cider.');
             currentMediaItem = JSON.parse(e.data).data;
             // Playback Info
-            if (currentMediaItem.name) {
+            if (currentMediaItem.name && nameElement.innerText !== currentMediaItem.name) {
               nameElement.innerText = currentMediaItem.name;
             }
-            if (currentMediaItem.artistName) {
+            if (currentMediaItem.artistName && artistElement.innerText !== currentMediaItem.artistName) {
               artistElement.innerText = currentMediaItem.artistName;
             }
-            if (currentMediaItem.albumName) {
+            if (currentMediaItem.albumName && albumElement.innerText !== currentMediaItem.albumName) {
               albumElement.innerText = currentMediaItem.albumName;
             }
             
