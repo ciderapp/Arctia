@@ -35,16 +35,13 @@ export function activate(context: vscode.ExtensionContext) {
 	socket = new WebSocket(`ws://localhost:26369`);
 	socket.onopen = () => {
 		vscode.window.showInformationMessage('Arctia successfully connected to Cider.');
-
 		socket.onclose = () => {
 			vscode.window.showInformationMessage('Arctia disconnected from Cider.');
 		}
-
 		socket.onerror = (e) => {
 			console.log(e);
 			vscode.window.showErrorMessage('Arctia connection error.');
 		}
-
 		socket.onmessage = (e) => {
 			messageData = e
 		}
