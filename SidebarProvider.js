@@ -136,14 +136,16 @@ class SidebarProvider {
       ">Previous Song</button>
 
       <script>
+        let artworkElement = document.getElementById("album-artwork");
+        let albumLinkElement = document.getElementById("album-link");
         let nameElement = document.getElementById("name");
         let artistElement = document.getElementById("artist");
         let albumElement = document.getElementById("album");
         let playbackSlider = document.getElementById("playback-slider");
-        let artworkElement = document.getElementById("album-artwork");
-        let albumLinkElement = document.getElementById("album-link");
         let playButton = document.getElementById("play-button");
         let pauseButton = document.getElementById("pause-button");
+        let nextButton = document.getElementById("next-button");
+        let previousButton = document.getElementById("previous-button");
         let currentMediaItem = {};
 
         function updatePlaybackSlider() {
