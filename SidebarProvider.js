@@ -134,8 +134,9 @@ class SidebarProvider {
             value: ''
           });
       ">Previous Song</button>
-      <button id="reload-button" style="display: none;" onclick="
-        /*No need for this.
+      <button id="reload-button" onclick="
+        /*
+        TODO: Try both.
         document.location.reload()
         document.location = document.location
         */
