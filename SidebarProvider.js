@@ -202,9 +202,6 @@ class SidebarProvider {
             if (currentMediaItem.status !== undefined) {
               nextButton.style.display = "inline-block";
               previousButton.style.display = "inline-block";
-            } else {
-              nextButton.style.display = "none";
-              previousButton.style.display = "none";
             }
 
             // Playback Slider
