@@ -89,7 +89,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       <h3 id="artist"> </h3>
       <p id="album"> </p>
       <br>
-      <input id="playback-slider" type="range" id="volume" min="0" oninput="updatePlaybackSlider()">
+      <input id="playback-slider" type="range" id="volume" min="0" oninput="seekTo(playbackSlider.value);">
       <button id="play-button" onclick="
           tsvscode.postMessage({
             type: 'onPlay',
@@ -127,11 +127,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         let nextButton = document.getElementById("next-button");
         let previousButton = document.getElementById("previous-button");
         let currentMediaItem = {};
-
-        function updatePlaybackSlider() {
-          seekTo(playbackSlider.value);
-          console.log(playbackSlider.value);
-        }
 
         function seekTo(time, adjust = true) {
           if (adjust) {
