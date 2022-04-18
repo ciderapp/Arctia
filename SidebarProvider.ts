@@ -111,6 +111,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             value: ''
           });
       ">Previous Song</button>
+      <button id="reload-button" onclick="
+        /*
+        TODO: Try both.
+        document.location.reload()
+        document.location = document.location
+        */
+      ">Retry Connection</button>
 
       <script>
         let nameElement = document.getElementById("name");
