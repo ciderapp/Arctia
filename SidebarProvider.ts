@@ -159,6 +159,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             if (currentMediaItem.artwork !== undefined) {
               artworkElement.src = currentMediaItem.artwork.url.replace('{w}', 600).replace('{h}', 600);
             }
+            if (currentMediaItem.url !== undefined) {
+              albumLinkElement.href = currentMediaItem.url.appleMusic;
+            }
 
             // Play/Pause Logic
             if (currentMediaItem.status !== undefined) {
