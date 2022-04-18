@@ -145,21 +145,21 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             console.log('Arctia received message from Cider.');
             currentMediaItem = JSON.parse(e.data).data;
             // Playback Info
-            if (currentMediaItem.name !== undefined) {
+            if (currentMediaItem.name) {
               nameElement.innerText = currentMediaItem.name;
             }
-            if (currentMediaItem.artistName !== undefined) {
+            if (currentMediaItem.artistName) {
               artistElement.innerText = currentMediaItem.artistName;
             }
-            if (currentMediaItem.albumName !== undefined) {
+            if (currentMediaItem.albumName) {
               albumElement.innerText = currentMediaItem.albumName;
             }
             
             // Album Artwork
-            if (currentMediaItem.artwork !== undefined) {
+            if (currentMediaItem.artwork) {
               artworkElement.src = currentMediaItem.artwork.url.replace('{w}', 600).replace('{h}', 600);
             }
-            if (currentMediaItem.url !== undefined) {
+            if (currentMediaItem.url) {
               albumLinkElement.href = currentMediaItem.url.appleMusic;
             }
 
@@ -178,13 +178,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             if (playbackSlider.max == null) {
               playbackSlider.style.display = "none";
             }
-            if (currentMediaItem.durationInMillis !== undefined) {
+            if (currentMediaItem.durationInMillis) {
               if (playbackSlider.style.display == "none") {
                 playbackSlider.style.display = "block";
               }
               playbackSlider.max = currentMediaItem.durationInMillis;
             }
-            if (currentMediaItem.remainingTime !== undefined && currentMediaItem.durationInMillis !== undefined) {
+            if (currentMediaItem.remainingTime && currentMediaItem.durationInMillis) {
               if (playbackSlider.style.display == "none") {
                 playbackSlider.style.display = "block";
               }

@@ -19,10 +19,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.previous = exports.next = exports.pause = exports.play = exports.activate = exports.wsMessage = exports.socket = void 0;
+exports.previous = exports.next = exports.pause = exports.play = exports.activate = void 0;
 const vscode = __importStar(require("vscode"));
 const SidebarProvider_1 = require("./SidebarProvider");
 const ws_1 = require("ws");
+var socket;
 var messageData;
 /**
  * @param {vscode.ExtensionContext} context
@@ -47,42 +48,42 @@ function activate(context) {
     context.subscriptions.push(vscode.commands.registerCommand('arctia.previousSong', function () {
         previous();
     }));
-    exports.socket = new ws_1.WebSocket(`ws://localhost:26369`);
-    exports.socket.onopen = (e) => {
+    socket = new ws_1.WebSocket(`ws://localhost:26369`);
+    socket.onopen = (e) => {
         vscode.window.showInformationMessage('Project Arctia successfully connected to Cider.');
-        exports.socket.onclose = (e) => {
+        socket.onclose = (e) => {
             vscode.window.showInformationMessage('Project Arctia disconnected from Cider.');
         };
-        exports.socket.onerror = (e) => {
+        socket.onerror = (e) => {
             console.log(e);
             vscode.window.showErrorMessage('Project Arctia connection error.');
         };
-        exports.socket.onmessage = (e) => {
+        socket.onmessage = (e) => {
             messageData = e;
         };
     };
 }
 exports.activate = activate;
 function play() {
-    exports.socket.send(JSON.stringify({
+    socket.send(JSON.stringify({
         action: "play"
     }));
 }
 exports.play = play;
 function pause() {
-    exports.socket.send(JSON.stringify({
+    socket.send(JSON.stringify({
         action: "pause"
     }));
 }
 exports.pause = pause;
 function next() {
-    exports.socket.send(JSON.stringify({
+    socket.send(JSON.stringify({
         action: "next"
     }));
 }
 exports.next = next;
 function previous() {
-    exports.socket.send(JSON.stringify({
+    socket.send(JSON.stringify({
         action: "previous"
     }));
 }
