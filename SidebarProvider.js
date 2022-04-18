@@ -142,6 +142,8 @@ class SidebarProvider {
         let playbackSlider = document.getElementById("playback-slider");
         let artworkElement = document.getElementById("album-artwork");
         let albumLinkElement = document.getElementById("album-link");
+        let playButton = document.getElementById("play-button");
+        let pauseButton = document.getElementById("pause-button");
         let currentMediaItem = {};
 
         function updatePlaybackSlider() {
@@ -186,11 +188,11 @@ class SidebarProvider {
             // Play/Pause Logic
             if (currentMediaItem.status !== undefined) {
               if (currentMediaItem.status == true) {
-                document.getElementById("play-button").style.display = "none";
-                document.getElementById("pause-button").style.display = "block";
+                playButton.style.display = "none";
+                pauseButton.style.display = "block";
               } else {
-                document.getElementById("pause-button").style.display = "none";
-                document.getElementById("play-button").style.display = "block";
+                pauseButton.style.display = "none";
+                playButton.style.display = "block";
               }
             }
 
