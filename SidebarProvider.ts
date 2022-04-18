@@ -82,6 +82,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       <body>
       <h1>Project Arctia (Alpha)</h1>
       <br>
+      <a id="album-link">
+        <img alt="Album Artwork" id="album-artwork" width="1000" height="1000">
+      </a>
       <h2 id="name"> </h2>
       <h3 id="artist"> </h3>
       <p id="album"> </p>
@@ -123,6 +126,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         let artistElement = document.getElementById("artist");
         let albumElement = document.getElementById("album");
         let playbackSlider = document.getElementById("playback-slider");
+        let artworkElement = document.getElementById("album-artwork");
+        let albumLinkElement = document.getElementById("album-link")
 
         function updatePlaybackSlider() {
           seekTo(playbackSlider.value);
@@ -152,6 +157,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             }
             if (JSON.parse(e.data).data.albumName !== undefined) {
               albumElement.innerText = JSON.parse(e.data).data.albumName;
+            }
+            
+            // Album Artwork
+            if (JSON.parse(e.data).data.artwork[url] !== undefined) {
+              artworkElement.src = JSON.parse(e.data).data.artwork[url]
+            }
+            if (JSON.parse(e.data).data.url[appleMusic] !== undefined) {
+              albumLinkElement.href = JSON.parse(e.data).data.url[appleMusic]
             }
 
             // Play/Pause Logic
