@@ -134,12 +134,6 @@ class SidebarProvider {
             value: ''
           });
       ">Previous Song</button>
-      <button id="reload-button" style="display: none;" onclick="
-        /*No need for this.
-        document.location.reload()
-        document.location = document.location
-        */
-      ">Retry Connection</button>
 
       <script>
         let nameElement = document.getElementById("name");
@@ -147,7 +141,8 @@ class SidebarProvider {
         let albumElement = document.getElementById("album");
         let playbackSlider = document.getElementById("playback-slider");
         let artworkElement = document.getElementById("album-artwork");
-        let albumLinkElement = document.getElementById("album-link")
+        let albumLinkElement = document.getElementById("album-link");
+        let currentMediaItem = {};
 
         function updatePlaybackSlider() {
           seekTo(playbackSlider.value);
@@ -168,28 +163,22 @@ class SidebarProvider {
         socket.onopen = (e) => {
           socket.onmessage = (e) => {
             console.log('Arctia received message from Cider.');
+            currentMediaItem = JSON.parse(e.data).data;
             // Playback Info
-            if (JSON.parse(e.data).data.name !== undefined) {
-              nameElement.innerText = JSON.parse(e.data).data.name;
+            if (currentMediaItem.name !== undefined) {
+              nameElement.innerText = currentMediaItem.name;
             }
-            if (JSON.parse(e.data).data.artistName !== undefined) {
-              artistElement.innerText = JSON.parse(e.data).data.artistName;
+            if (currentMediaItem.artistName !== undefined) {
+              artistElement.innerText = currentMediaItem.artistName;
             }
-            if (JSON.parse(e.data).data.albumName !== undefined) {
-              albumElement.innerText = JSON.parse(e.data).data.albumName;
+            if (currentMediaItem.albumName !== undefined) {
+              albumElement.innerText = currentMediaItem.albumName;
             }
             
-            // Album Artwork
-            if (JSON.parse(e.data).data.artwork[url] !== undefined) {
-              artworkElement.src = JSON.parse(e.data).data.artwork[url]
-            }
-            if (JSON.parse(e.data).data.url[appleMusic] !== undefined) {
-              albumLinkElement.href = JSON.parse(e.data).data.url[appleMusic]
-            }
 
             // Play/Pause Logic
-            if (JSON.parse(e.data).data.status !== undefined) {
-              if (JSON.parse(e.data).data.status == true) {
+            if (currentMediaItem.status !== undefined) {
+              if (currentMediaItem.status == true) {
                 document.getElementById("play-button").style.display = "none";
                 document.getElementById("pause-button").style.display = "block";
               } else {
@@ -202,17 +191,17 @@ class SidebarProvider {
             if (playbackSlider.max == null) {
               playbackSlider.style.display = "none";
             }
-            if (JSON.parse(e.data).data.durationInMillis !== undefined) {
+            if (currentMediaItem.durationInMillis !== undefined) {
               if (playbackSlider.style.display == "none") {
                 playbackSlider.style.display = "block";
               }
-              playbackSlider.max = JSON.parse(e.data).data.durationInMillis;
+              playbackSlider.max = currentMediaItem.durationInMillis;
             }
-            if (JSON.parse(e.data).data.remainingTime !== undefined && JSON.parse(e.data).data.durationInMillis !== undefined) {
+            if (currentMediaItem.remainingTime !== undefined && currentMediaItem.durationInMillis !== undefined) {
               if (playbackSlider.style.display == "none") {
                 playbackSlider.style.display = "block";
               }
-              playbackSlider.value = JSON.parse(e.data).data.durationInMillis - JSON.parse(e.data).data.remainingTime;
+              playbackSlider.value = currentMediaItem.durationInMillis - currentMediaItem.remainingTime;
             }
           }
         }
