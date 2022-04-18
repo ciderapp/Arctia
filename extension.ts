@@ -13,28 +13,10 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.registerWebviewViewProvider("arctia-sidebar", sideBarProvider)
 	);
 
-	// Commented out due to status not always being available
 	// Register command to play and pause
-	/*context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
-		if (JSON.parse(messageData.data).data.status == true) {
-			pause();
-		} else {
-			play();
-		}
+	context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
+		playPause();
 	}));
-	*/
-
-	// TEMP FIX
-	// Register command to play
-	context.subscriptions.push(vscode.commands.registerCommand('arctia.play', function () {
-		play();
-	}));
-
-	// Register command to pause
-	context.subscriptions.push(vscode.commands.registerCommand('arctia.pause', function () {
-		pause();
-	}));
-	// TEMP FIX END
 
 	// Register command to go to next song
 	context.subscriptions.push(vscode.commands.registerCommand('arctia.nextSong', function () {
@@ -71,6 +53,12 @@ export function play() {
 export function pause() {
 	socket.send(JSON.stringify({
 		action: "pause"
+	}))
+}
+
+export function playPause() {
+	socket.send(JSON.stringify({
+		action: "playpause"
 	}))
 }
 

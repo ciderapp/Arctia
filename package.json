@@ -19,12 +19,8 @@
 	"contributes": {
 		"commands": [
 		{
-            "command": "arctia.play",
-            "title": "Arctia: Play"
-		},
-		{
-			"command": "arctia.pause",
-			"title": "Arctia: Pause"
+            "command": "arctia.playpause",
+            "title": "Arctia: Play/Pause"
 		},
 		{
             "command": "arctia.nextSong",

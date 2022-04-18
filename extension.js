@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.previous = exports.next = exports.pause = exports.play = exports.activate = void 0;
+exports.previous = exports.next = exports.playPause = exports.pause = exports.play = exports.activate = void 0;
 const vscode = __importStar(require("vscode"));
 const SidebarProvider_1 = require("./SidebarProvider");
 const ws_1 = require("ws");
@@ -31,26 +31,10 @@ var messageData;
 function activate(context) {
     const sideBarProvider = new SidebarProvider_1.SidebarProvider(context.extensionUri);
     context.subscriptions.push(vscode.window.registerWebviewViewProvider("arctia-sidebar", sideBarProvider));
-    // Commented out due to status not always being available
     // Register command to play and pause
-    /*context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
-        if (JSON.parse(messageData.data).data.status == true) {
-            pause();
-        } else {
-            play();
-        }
+    context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
+        playPause();
     }));
-    */
-    // TEMP FIX
-    // Register command to play
-    context.subscriptions.push(vscode.commands.registerCommand('arctia.play', function () {
-        play();
-    }));
-    // Register command to pause
-    context.subscriptions.push(vscode.commands.registerCommand('arctia.pause', function () {
-        pause();
-    }));
-    // TEMP FIX END
     // Register command to go to next song
     context.subscriptions.push(vscode.commands.registerCommand('arctia.nextSong', function () {
         next();
@@ -87,6 +71,12 @@ function pause() {
     }));
 }
 exports.pause = pause;
+function playPause() {
+    socket.send(JSON.stringify({
+        action: "playpause"
+    }));
+}
+exports.playPause = playPause;
 function next() {
     socket.send(JSON.stringify({
         action: "next"
