@@ -114,13 +114,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         function postMessage(type, value = '') { tsvscode.postMessage({ type: type, value: value }); }
 
         function seekTo(time, adjust = true) {
-          if (adjust) {
-              time = parseInt(time / 1000)
-          }
-          socket.send(JSON.stringify({
-              action: "seek",
-              time: time
-          }));
+          if (adjust) { time = parseInt(time / 1000) }
+          socket.send(JSON.stringify({ action: "seek", time: time }));
         }
         
         socket = new WebSocket("ws://localhost:26369");
