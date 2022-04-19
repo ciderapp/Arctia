@@ -61,7 +61,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     const stylesMainUri = webview.asWebviewUri(
       vscode.Uri.joinPath(this._extensionUri, "styles", "vscode.css")
     );
-
+    const stylesCustomUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "styles", "custom.css")
+    );
 
     return `<!DOCTYPE html>
 			<html lang="en">
@@ -75,6 +77,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<link href="${stylesResetUri}" rel="stylesheet">
         <link href="${stylesMainUri}" rel="stylesheet">
+        <link href="${stylesCustomUri}" rel="stylesheet">
         <script>
           const tsvscode = acquireVsCodeApi();
         </script>
