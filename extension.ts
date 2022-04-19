@@ -35,8 +35,8 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showInformationMessage('Arctia disconnected from Cider.');
 		}
 		socket.onerror = (e) => {
-			console.log(e);
-			vscode.window.showErrorMessage('Arctia connection error.');
+			console.error(e);
+			vscode.window.showErrorMessage('Arctia connection error. Details can be found in the console.');
 		}
 		socket.onmessage = (e) => {
 			messageData = e

@@ -126,7 +126,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         socket = new WebSocket("ws://localhost:26369");
         socket.onopen = (e) => {
           socket.onmessage = (e) => {
-            console.log('Arctia received message from Cider.');
             currentMediaItem = JSON.parse(e.data).data;
             // Playback Info
             if (currentMediaItem.name && nameElement.innerText !== currentMediaItem.name) {
