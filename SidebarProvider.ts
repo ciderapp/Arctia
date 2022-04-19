@@ -82,50 +82,52 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       <body>
       <h1>Project Arctia (Alpha)</h1>
       <br>
-      <a id="album-link">
-        <img id="album-artwork" width="1000" height="1000" style="border-radius: 2%">
+      <a class="album-link">
+        <img class="album-artwork" width="1000" height="1000" style="border-radius: 2%">
       </a>
-      <h2 id="name"> </h2>
-      <h3 id="artist"> </h3>
-      <p id="album"> </p>
+      <h2 class="name"> </h2>
+      <h3 class="artist"> </h3>
+      <p class="album"> </p>
       <br>
-      <input id="playback-slider" type="range" id="volume" min="0" oninput="seekTo(playbackSlider.value);">
-      <button id="play-button" onclick="
+      <input class="playback-slider" type="range" id="volume" min="0" oninput="seekTo(playbackSlider.value);">
+      <div class="playback-buttons">
+        <button class="playback-button play" onclick="
           tsvscode.postMessage({
             type: 'onPlay',
             value: ''
           });
-      " style="display: none;">Play</button>
-      <button id="pause-button" onclick="
+        " style="display: none;"></button>
+        <button class="playback-button pause" onclick="
           tsvscode.postMessage({
             type: 'onPause',
             value: ''
           });
-      " style="display: none;">Pause</button>
-      <button id="next-button" style="display: none;" onclick="
+        " style="display: none;"></button>
+        <button class="playback-button next" style="display: none;" onclick="
           tsvscode.postMessage({
             type: 'onNextSong',
             value: ''
           });
-      ">Next Song</button>
-      <button id="previous-button" style="display: none;" onclick="
+        "></button>
+        <button class="playback-button previous" style="display: none;" onclick="
           tsvscode.postMessage({
             type: 'onPreviousSong',
             value: ''
           });
-      ">Previous Song</button>
-
+        "></button>
+      </div>
+      
       <script>
-        let artworkElement = document.getElementById("album-artwork");
-        let albumLinkElement = document.getElementById("album-link");
-        let nameElement = document.getElementById("name");
-        let artistElement = document.getElementById("artist");
-        let albumElement = document.getElementById("album");
-        let playbackSlider = document.getElementById("playback-slider");
-        let playButton = document.getElementById("play-button");
-        let pauseButton = document.getElementById("pause-button");
-        let nextButton = document.getElementById("next-button");
-        let previousButton = document.getElementById("previous-button");
+        let artworkElement = document.querySelector(".album-artwork");
+        let albumLinkElement = document.querySelector(".album-link");
+        let nameElement = document.querySelector(".name");
+        let artistElement = document.querySelector(".artist");
+        let albumElement = document.querySelector(".album");
+        let playbackSlider = document.querySelector(".playback-slider");
+        let playButton = document.querySelector(".play");
+        let pauseButton = document.querySelector(".pause");
+        let nextButton = document.querySelector(".next");
+        let previousButton = document.querySelector(".previous");
         let currentMediaItem = {};
 
         function seekTo(time, adjust = true) {
