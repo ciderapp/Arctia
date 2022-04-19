@@ -94,30 +94,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       <br>
       <input class="playback-slider" type="range" id="volume" min="0" oninput="seekTo(playbackSlider.value);">
       <div class="playback-buttons">
-        <button class="playback-button play" onclick="
-          tsvscode.postMessage({
-            type: 'onPlay',
-            value: ''
-          });
-        ">Play</button>
-        <button class="playback-button pause" onclick="
-          tsvscode.postMessage({
-            type: 'onPause',
-            value: ''
-          });
-        ">Pause</button>
-        <button class="playback-button next" onclick="
-          tsvscode.postMessage({
-            type: 'onNextSong',
-            value: ''
-          });
-        ">Next Song</button>
-        <button class="playback-button previous" onclick="
-          tsvscode.postMessage({
-            type: 'onPreviousSong',
-            value: ''
-          });
-        ">Previous Song</button>
+        <button class="playback-button play" onclick="postMessage('onPlay')">Play</button>
+        <button class="playback-button pause" onclick="postMessage('onPause')">Pause</button>
+        <button class="playback-button next" onclick="postMessage('onNextSong')">Next Song</button>
+        <button class="playback-button previous" onclick="postMessage('onPreviousSong')">Previous Song</button>
       </div>
       
       <script>
@@ -132,6 +112,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         let nextButton = document.querySelector(".next");
         let previousButton = document.querySelector(".previous");
         let currentMediaItem = {};
+
+        function postMessage(type, value = '') { tsvscode.postMessage({ type: type, value: value }); }
 
         function seekTo(time, adjust = true) {
           if (adjust) {
