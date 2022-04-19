@@ -13,17 +13,14 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.registerWebviewViewProvider("arctia-sidebar", sideBarProvider)
 	);
 
-	// Register command to play and pause
 	context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
 		playPause();
 	}));
 
-	// Register command to go to next song
 	context.subscriptions.push(vscode.commands.registerCommand('arctia.nextSong', function () {
 		next();
 	}));
 
-	// Register command to go to previous song
 	context.subscriptions.push(vscode.commands.registerCommand('arctia.previousSong', function () {
 		previous();
 	}));
