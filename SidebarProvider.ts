@@ -35,16 +35,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           previous();
           break;
         }
-        case "onInfo": {
-          if (!mData.value) { return; }
-          vscode.window.showInformationMessage(mData.value);
-          break;
-        }
-        case "onError": {
-          if (!mData.value) { return; }
-          vscode.window.showErrorMessage(mData.value);
-          break;
-        }
       }
     });
   }
@@ -69,10 +59,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 			<html lang="en">
 			<head>
 				<meta charset="UTF-8">
-				<!--
-					Use a content security policy to only allow loading images from https or from our extension directory,
-					and only allow scripts that have a specific nonce.
-        -->
         <meta http-equiv="Content-Security-Policy" content="img-src https: data:; 'unsafe-inline'>
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<link href="${stylesResetUri}" rel="stylesheet">
