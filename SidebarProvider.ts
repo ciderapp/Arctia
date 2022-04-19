@@ -82,7 +82,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         <button class="playback-button next" onclick="postMessage('onNextSong')">Next Song</button>
         <button class="playback-button previous" onclick="postMessage('onPreviousSong')">Previous Song</button>
       </div>
-      
+      <div class="footer">
+        <footer>Made with ❤️ by <a href="https://github.com/Amaru8/" target="_blank">Amaru#0989</a></footer>
+      </div>
       <script>
         const tsvscode = acquireVsCodeApi();
         let artworkElement = document.querySelector(".album-artwork");
