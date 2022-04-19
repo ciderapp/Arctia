@@ -6,3 +6,19 @@
 .album-artwork {
     border-radius: 2%;
 }
+
+.play {
+    display: none;
+}
+
+.pause {
+    display: none;
+}
+
+.next {
+    display: none;
+}
+
+.previous {
+    display: none;
+}
