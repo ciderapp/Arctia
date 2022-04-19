@@ -94,30 +94,30 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       <br>
       <input class="playback-slider" type="range" id="volume" min="0" oninput="seekTo(playbackSlider.value);">
       <div class="playback-buttons">
-        <button class="playback-button play" onclick="
+        <button class="playback-button play" style="display: none;" onclick="
           tsvscode.postMessage({
             type: 'onPlay',
             value: ''
           });
-        " style="display: none;"></button>
-        <button class="playback-button pause" onclick="
+        ">Play</button>
+        <button class="playback-button pause" style="display: none;" onclick="
           tsvscode.postMessage({
             type: 'onPause',
             value: ''
           });
-        " style="display: none;"></button>
+        ">Pause</button>
         <button class="playback-button next" style="display: none;" onclick="
           tsvscode.postMessage({
             type: 'onNextSong',
             value: ''
           });
-        "></button>
+        ">Next Song</button>
         <button class="playback-button previous" style="display: none;" onclick="
           tsvscode.postMessage({
             type: 'onPreviousSong',
             value: ''
           });
-        "></button>
+        ">Previous Song</button>
       </div>
       
       <script>
