@@ -78,9 +78,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 				<link href="${stylesResetUri}" rel="stylesheet">
         <link href="${stylesMainUri}" rel="stylesheet">
         <link href="${stylesCustomUri}" rel="stylesheet">
-        <script>
-          const tsvscode = acquireVsCodeApi();
-        </script>
 			</head>
       <body>
       <h1>Project Arctia (Alpha)</h1>
@@ -101,6 +98,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       </div>
       
       <script>
+        const tsvscode = acquireVsCodeApi();
         let artworkElement = document.querySelector(".album-artwork");
         let albumLinkElement = document.querySelector(".album-link");
         let nameElement = document.querySelector(".name");
