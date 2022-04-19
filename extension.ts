@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { SidebarProvider } from './SidebarProvider';
+import { SidebarProvider } from './sidebar';
 import { WebSocket } from 'ws';
 var socket: WebSocket;
 var messageData: any;
