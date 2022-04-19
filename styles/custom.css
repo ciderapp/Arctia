@@ -1,25 +1,25 @@
-.playback-button {
+button.playback-button {
     margin-top: 4px;
     margin-bottom: 4px;
 }
 
-.album-artwork {
+img.album-artwork {
     border-radius: 2%;
 }
 
-.play {
+button.play {
     display: none;
 }
 
-.pause {
+button.pause {
     display: none;
 }
 
-.next {
+button.next {
     display: none;
 }
 
-.previous {
+button.previous {
     display: none;
 }
 
