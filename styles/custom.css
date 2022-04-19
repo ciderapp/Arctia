@@ -5,6 +5,7 @@ button.playback-button {
 
 img.album-artwork {
     border-radius: 2%;
+    margin-bottom: 5px;
 }
 
 button.play {
