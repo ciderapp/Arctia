@@ -8,9 +8,9 @@ var messageData: any;
  * @param {vscode.ExtensionContext} context
  */
 export function activate(context: vscode.ExtensionContext) {
-	const webviewSidebar = new SidebarProvider(context.extensionUri);
+	const sidebarWebview = new SidebarProvider(context.extensionUri);
 	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider("arctia-sidebar", webviewSidebar)
+		vscode.window.registerWebviewViewProvider("arctia-sidebar", sidebarWebview)
 	);
 
 	context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
