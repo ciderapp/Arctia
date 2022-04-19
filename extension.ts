@@ -44,35 +44,15 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 }
 
-export function play() {
-	socket.send(JSON.stringify({
-		action: "play"
-	}))
-}
+export function play() { socket.send(JSON.stringify({ action: "play" })) }
 
-export function pause() {
-	socket.send(JSON.stringify({
-		action: "pause"
-	}))
-}
+export function pause() { socket.send(JSON.stringify({ action: "pause" })) }
 
-export function playPause() {
-	socket.send(JSON.stringify({
-		action: "playpause"
-	}))
-}
+export function playPause() { socket.send(JSON.stringify({ action: "playpause" })) }
 
-export function next() {
-	socket.send(JSON.stringify({
-		action: "next"
-	}))
-}
+export function next() { socket.send(JSON.stringify({ action: "next" })) }
 
-export function previous() {
-	socket.send(JSON.stringify({
-		action: "previous"
-	}))
-}
+export function previous() { socket.send(JSON.stringify({ action: "previous" })) }
 
 function deactivate() {}
 
