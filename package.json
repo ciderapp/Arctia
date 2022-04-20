@@ -1,6 +1,6 @@
 {
   "name": "arctia",
-	"displayName": "Project Arctia (Alpha)",
+	"displayName": "Project Arctia (Beta)",
 	"description": "Arctia is a remote controller for Cider, the open-source Apple Music client.",
 	"version": "0.0.1",
 	"engines": {

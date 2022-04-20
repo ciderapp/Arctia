@@ -1,41 +1,45 @@
-button.playback-button {
+.playback-button {
     margin-top: 4px;
     margin-bottom: 4px;
 }
 
-img.album-artwork {
+.playback-buttons {
+    margin-top: 8px;
+}
+
+.album-artwork {
     border-radius: 2%;
 }
 
-p.radio-notice {
+.radio-notice {
     display: none;
 }
 
-button.play {
+.play {
     display: none;
 }
 
-button.pause {
+.pause {
     display: none;
 }
 
-button.next {
+.next {
     display: none;
 }
 
-button.previous {
+.previous {
     display: none;
 }
 
-h2.name {
+.name {
     margin-top: 5px;
 }
 
-div.debug {
+.debug {
     display: none;
 }
 
-div.footer {
+.footer {
    position: fixed;
    left: 0;
    bottom: 1em;
@@ -43,7 +47,27 @@ div.footer {
    text-align: center;
 }
 
-button.heart {
+.playback-slider {
+    margin-top: 10px;
+}
+
+.debug {
+    padding: 6px;
+    border-radius: 5px;
+    margin-top: 25px;
+    background-color: #f35756;
+}
+
+.debug-header {
+    color: black
+}
+
+.debug-button {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.heart {
     border: none !important;
 	padding: 0px !important;
     width: auto !important;
