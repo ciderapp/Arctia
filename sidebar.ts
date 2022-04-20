@@ -82,8 +82,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         <button class="playback-button next" onclick="postMessage('onNextSong')">Next Song</button>
         <button class="playback-button previous" onclick="postMessage('onPreviousSong')">Previous Song</button>
       </div>
+      <div class="debug">
+        <h3>Debug</h3>
+        <button class="playback-button" onclick="console.log(currentMediaItem)">Log Playback Info</button>
+      </div>
       <div class="footer">
-        <footer>Made with ❤️ by <a href="https://github.com/Amaru8/" target="_blank">Amaru#0989</a></footer>
+        <p class="radio-notice">Playback controls are currently not supported during radio playback.</p>
+        <br>
+        <footer>Made with <button class="heart" onclick="heartTap()">❤️</button> by <a href="https://github.com/Amaru8/" target="_blank">Amaru#0989</a></footer>
       </div>
       <script>
         const tsvscode = acquireVsCodeApi();
@@ -97,6 +103,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         let pauseButton = document.querySelector(".pause");
         let nextButton = document.querySelector(".next");
         let previousButton = document.querySelector(".previous");
+        let debugElements = document.querySelector(".debug");
+        let radioNoticeElement = document.querySelector(".radio-notice");
+        let heartBeat = 0;
         let currentMediaItem = {};
 
         function postMessage(type, value = '') { tsvscode.postMessage({ type: type, value: value }); }
@@ -105,63 +114,110 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           if (adjust) { time = parseInt(time / 1000) }
           socket.send(JSON.stringify({ action: "seek", time: time }));
         }
+
+        function heartTap() {
+          heartBeat += 1;
+          switch (heartBeat) {
+            case 3:
+              debugElements.style.display = "block";
+              break;
+            case 6:
+              debugElements.style.display = "none";
+              heartBeat = 0;
+              break;
+          }
+        }
         
         socket = new WebSocket("ws://localhost:26369");
         socket.onopen = (e) => {
           socket.onmessage = (e) => {
             currentMediaItem = JSON.parse(e.data).data;
+            console.log(currentMediaItem);
             // Playback Info
             if (currentMediaItem.name && nameElement.innerText !== currentMediaItem.name) {
               nameElement.innerText = currentMediaItem.name;
             }
-            if (currentMediaItem.artistName && artistElement.innerText !== currentMediaItem.artistName) {
-              artistElement.innerText = currentMediaItem.artistName;
+            if (currentMediaItem.playParams && currentMediaItem.playParams.kind == "song") {
+              if (currentMediaItem.artistName && artistElement.innerText !== currentMediaItem.artistName) {
+                artistElement.innerText = currentMediaItem.artistName;
+              }
+              if (currentMediaItem.albumName && albumElement.innerText !== currentMediaItem.albumName) {
+                albumElement.innerText = currentMediaItem.albumName;
+              }
+            } else if (currentMediaItem.playParams && currentMediaItem.playParams.kind == "radioStation") {
+              albumElement.innerText = "";
+              artistElement.innerText = "Radio Station";
+            } else {
+              albumElement.innerText = "";
+              artistElement.innerText = "";
             }
-            if (currentMediaItem.albumName && albumElement.innerText !== currentMediaItem.albumName) {
-              albumElement.innerText = currentMediaItem.albumName;
-            }
-            
+              
             // Album Artwork
             if (currentMediaItem.artwork && currentMediaItem.artwork.url.length > 0) {
               artworkElement.src = currentMediaItem.artwork.url.replace('{w}', 600).replace('{h}', 600);
             }
-            if (currentMediaItem.url && currentMediaItem.url.appleMusic.length > 0) {
-              albumLinkElement.href = currentMediaItem.url.appleMusic;
+            if (currentMediaItem.playParams && currentMediaItem.playParams.kind == "song") {
+              if (currentMediaItem.url && currentMediaItem.url.appleMusic.length > 0) {
+                albumLinkElement.href = currentMediaItem.url.appleMusic;
+              }
+            } else {
+              albumLinkElement.href = "";
+            }
+
+            // Radio Notice
+            if (currentMediaItem.playParams && currentMediaItem.playParams.kind == "radioStation") {
+              radioNoticeElement.style.display = "block";
+            } else {
+              radioNoticeElement.style.display = "none";
             }
 
             // Play/Pause Logic
-            if (currentMediaItem.status !== undefined) {
-              if (currentMediaItem.status == true) {
-                playButton.style.display = "none";
-                pauseButton.style.display = "inline-block";
-              } else {
-                pauseButton.style.display = "none";
-                playButton.style.display = "inline-block";
+            if (currentMediaItem.playParams && currentMediaItem.playParams.kind == "song") {
+              if (currentMediaItem.status !== undefined) {
+                if (currentMediaItem.status == true) {
+                  playButton.style.display = "none";
+                  pauseButton.style.display = "inline-block";
+                } else {
+                  pauseButton.style.display = "none";
+                  playButton.style.display = "inline-block";
+                }
               }
+            } else {
+              playButton.style.display = "none";
+              pauseButton.style.display = "none";
             }
 
             // Next/Previous Logic
-            if (currentMediaItem.status !== undefined) {
-              nextButton.style.display = "inline-block";
-              previousButton.style.display = "inline-block";
+            if (currentMediaItem.playParams && currentMediaItem.playParams.kind == "song") {
+              if (currentMediaItem.status !== undefined) {
+                nextButton.style.display = "inline-block";
+                previousButton.style.display = "inline-block";
+              }
+            } else {
+              nextButton.style.display = "none";
+              previousButton.style.display = "none";
             }
 
             // Playback Slider
-            if (playbackSlider.max == null) {
+            if (currentMediaItem.playParams && currentMediaItem.playParams.kind == "song") {
+              if (playbackSlider.max == null) {
+                playbackSlider.style.display = "none";
+              }
+              if (currentMediaItem.durationInMillis) {
+                if (playbackSlider.style.display == "none") {
+                  playbackSlider.style.display = "block";
+                }
+                playbackSlider.max = currentMediaItem.durationInMillis;
+              }
+              if (currentMediaItem.remainingTime && currentMediaItem.durationInMillis) {
+                if (playbackSlider.style.display == "none") {
+                  playbackSlider.style.display = "block";
+                }
+                playbackSlider.value = currentMediaItem.durationInMillis - currentMediaItem.remainingTime;
+              }
+            } else {
               playbackSlider.style.display = "none";
-            }
-            if (currentMediaItem.durationInMillis) {
-              if (playbackSlider.style.display == "none") {
-                playbackSlider.style.display = "block";
-              }
-              playbackSlider.max = currentMediaItem.durationInMillis;
-            }
-            if (currentMediaItem.remainingTime && currentMediaItem.durationInMillis) {
-              if (playbackSlider.style.display == "none") {
-                playbackSlider.style.display = "block";
-              }
-              playbackSlider.value = currentMediaItem.durationInMillis - currentMediaItem.remainingTime;
-            }
+            }   
           }
         }
 

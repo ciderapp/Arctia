@@ -5,7 +5,10 @@ button.playback-button {
 
 img.album-artwork {
     border-radius: 2%;
-    margin-bottom: 5px;
+}
+
+p.radio-notice {
+    display: none;
 }
 
 button.play {
@@ -24,10 +27,29 @@ button.previous {
     display: none;
 }
 
+h2.name {
+    margin-top: 5px;
+}
+
+div.debug {
+    display: none;
+}
+
 div.footer {
    position: fixed;
    left: 0;
    bottom: 1em;
    width: 100%;
    text-align: center;
+}
+
+button.heart {
+    border: none !important;
+	padding: 0px !important;
+    width: auto !important;
+	text-align: center !important;
+	outline: 0px !important;
+	outline-offset: 0px !important;
+	color: black !important;
+	background: none !important;
 }
