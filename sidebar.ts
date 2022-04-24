@@ -36,8 +36,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           break;
         }
         case "developerMenuOpened": {
-          vscode.window.showWarningMessage("This menu is made for developers only.");
-          vscode.window.showWarningMessage("Do not modify anything unless you know what you're doing.");
+          vscode.window.showWarningMessage("Close it unless you know what you're doing. This menu is made for developers only.");
           break;
         }
         case "developerMenuClosed": {
