@@ -17,9 +17,17 @@ let audioKind = "song";
 
 function postMessage(type, value = '') { tsvscode.postMessage({ type: type, value: value }); }
 
+function play() { dataSocket.send(JSON.stringify({ action: "play" })) }
+
+function pause() { dataSocket.send(JSON.stringify({ action: "pause" })) }
+
+function next() { dataSocket.send(JSON.stringify({ action: "next" })) }
+
+function previous() { dataSocket.send(JSON.stringify({ action: "previous" })) }
+
 function seekTo(time, adjust = true) {
   if (adjust) { time = parseInt(time / 1000) }
-  socket.send(JSON.stringify({ action: "seek", time: time }));
+  dataSocket.send(JSON.stringify({ action: "seek", time: time }));
 }
 
 async function heartTap() {
@@ -38,9 +46,9 @@ function heartHide() {
     postMessage('developerMenuClosed');
 }
 
-socket = new WebSocket("ws://localhost:26369");
-socket.onopen = (e) => {
-  socket.onmessage = (e) => {
+dataSocket = new WebSocket("ws://localhost:26369");
+dataSocket.onopen = (e) => {
+  dataSocket.onmessage = (e) => {
     currentMediaItem = JSON.parse(e.data).data;
     if (currentMediaItem.playParams.kind) { audioKind = currentMediaItem.playParams.kind }
     if (audioKind == "song" || audioKind == "musicVideo" || audioKind == "uploadedVideo" || audioKind == "music-movie") {
@@ -127,5 +135,10 @@ socket.onopen = (e) => {
       artworkElement.src = currentMediaItem.artwork.url.replace('{w}', 600).replace('{h}', 600);
       artworkElement.style.display = "block";
     }
+  }
+
+  dataSocket.onerror = (e) => {
+    console.error(e);
+    postMessage('dataSocketError');
   }
 }
