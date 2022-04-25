@@ -1,20 +1,24 @@
 {
-  "name": "arctia",
-	"displayName": "Project Arctia (Beta)",
-	"description": "Arctia is a remote controller for Cider, the open-source Apple Music client.",
+  	"name": "arctia",
 	"version": "1.0.0",
+	"publisher": "Amaru",
 	"engines": {
 		"vscode": "^1.66.0"
 	},
+	"license": "AGPL-3.0-only",
+	"displayName": "Arctia",
+	"description": "Arctia is a remote controller for Cider, the open-source Apple Music client.",
 	"categories": [
 		"Other"
 	],
-	"activationEvents": [
-		"onView:arctia-sidebar",
-		"onCommand:arctia.playpause",
-		"onCommand:arctia.nextSong",
-		"onCommand:arctia.previousSong"
+	"keywords": [
+		"arctia",
+		"music",
+		"remote",
+		"controller",
+		"cider"
 	],
+	"preview": true,
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
@@ -51,6 +55,12 @@
 			]
 		}
 	},
+	"activationEvents": [
+		"onView:arctia-sidebar",
+		"onCommand:arctia.playpause",
+		"onCommand:arctia.nextSong",
+		"onCommand:arctia.previousSong"
+	],
 	"scripts": {
 		"lint": "eslint .",
 		"pretest": "yarn run lint",
@@ -61,6 +71,6 @@
         "glob": "^7.2.0",
         "mocha": "^9.2.2",
         "@vscode/test-electron": "^2.1.3"
-    }
-
+    },
+	"extensionKind": ["ui"]
 }
