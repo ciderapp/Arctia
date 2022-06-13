@@ -1,76 +1,76 @@
 {
-  	"name": "arctia",
-	"version": "1.0.0",
-	"publisher": "Amaru",
-	"engines": {
-		"vscode": "^1.66.0"
-	},
-	"license": "AGPL-3.0-only",
-	"displayName": "Arctia",
-	"description": "Arctia is a remote controller for Cider, the open-source Apple Music client.",
-	"categories": [
-		"Other"
-	],
-	"keywords": [
-		"arctia",
-		"music",
-		"remote",
-		"controller",
-		"cider"
-	],
-	"preview": true,
-	"main": "./extension.js",
-	"contributes": {
-		"commands": [
-		{
+      "name": "arctia",
+    "version": "1.0.0",
+    "publisher": "Amaru",
+    "engines": {
+        "vscode": "^1.66.0"
+    },
+    "license": "AGPL-3.0-only",
+    "displayName": "Arctia",
+    "description": "Arctia is a remote controller for Cider, the open-source Apple Music client.",
+    "categories": [
+        "Other"
+    ],
+    "keywords": [
+        "arctia",
+        "music",
+        "remote",
+        "controller",
+        "cider"
+    ],
+    "preview": true,
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+        {
             "command": "arctia.playpause",
             "title": "Arctia: Play/Pause"
-		},
-		{
+        },
+        {
             "command": "arctia.nextSong",
             "title": "Arctia: Next Song"
-		},
-		{
+        },
+        {
             "command": "arctia.previousSong",
             "title": "Arctia: Previous Song"
-		}],
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "arctia-sidebar-view",
-					"title": "Project Arctia",
-					"icon": "cider-icon.svg"
-				}
-			]
-		},
-		"views": {
-			"arctia-sidebar-view": [
-				{
-					"type": "webview",
-					"id": "arctia-sidebar",
-					"name": "Project Arctia",
-					"icon": "cider-icon.svg",
-					"contextualTitle": "Project Arctia"
-				}
-			]
-		}
-	},
-	"activationEvents": [
-		"onView:arctia-sidebar",
-		"onCommand:arctia.playpause",
-		"onCommand:arctia.nextSong",
-		"onCommand:arctia.previousSong"
-	],
-	"scripts": {
-		"lint": "eslint .",
-		"pretest": "yarn run lint",
-		"test": "node ./test/runTest.js"
-	},
-	"devDependencies": {
+        }],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "arctia-sidebar-view",
+                    "title": "Project Arctia",
+                    "icon": "cider-icon.svg"
+                }
+            ]
+        },
+        "views": {
+            "arctia-sidebar-view": [
+                {
+                    "type": "webview",
+                    "id": "arctia-sidebar",
+                    "name": "Project Arctia",
+                    "icon": "cider-icon.svg",
+                    "contextualTitle": "Project Arctia"
+                }
+            ]
+        }
+    },
+    "activationEvents": [
+        "onView:arctia-sidebar",
+        "onCommand:arctia.playpause",
+        "onCommand:arctia.nextSong",
+        "onCommand:arctia.previousSong"
+    ],
+    "scripts": {
+        "lint": "eslint .",
+        "pretest": "yarn run lint",
+        "test": "node ./test/runTest.js"
+    },
+    "devDependencies": {
         "eslint": "^8.11.0",
         "glob": "^7.2.0",
         "mocha": "^9.2.2",
         "@vscode/test-electron": "^2.1.3"
     },
-	"extensionKind": ["ui"]
+    "extensionKind": ["ui"]
 }
