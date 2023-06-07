@@ -17,23 +17,7 @@
     -webkit-user-drag: none;
 }
 
-.radio-notice {
-    display: none;
-}
-
-.play {
-    display: none;
-}
-
-.pause {
-    display: none;
-}
-
-.next {
-    display: none;
-}
-
-.previous {
+.play, .pause, .next, .previous, .radio-notice {
     display: none;
 }
 
@@ -46,20 +30,17 @@
     user-select: text;
 }
 
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 1em;
+    width: 100%;
+    text-align: center;
+    cursor: default;
+}
+
 .debug {
     display: none;
-}
-
-.footer {
-   position: fixed;
-   left: 0;
-   bottom: 1em;
-   width: 100%;
-   text-align: center;
-   cursor: default;
-}
-
-.debug {
     padding: 6px;
     border-radius: 5px;
     margin-top: 25px;
@@ -77,13 +58,13 @@
 
 .heart {
     border: none !important;
-	padding: 0px !important;
+    padding: 0px !important;
     width: auto !important;
-	text-align: center !important;
+    text-align: center !important;
     outline: 0px !important;
-	outline-offset: 0px !important;
-	color: black !important;
-	background: none !important;
+    outline-offset: 0px !important;
+    color: black !important;
+    background: none !important;
     cursor: default !important;
 }
 
@@ -91,26 +72,26 @@
     user-select: none;
 }
 
-/* CSS styles for the progress element */
 progress {
     display: block;
     width: 100%;
-    -webkit-appearance: none;
     height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 progress::-webkit-progress-value { 
-  background-color: var(--vscode-progressBar-background);
-  border-radius: 10px;
+    background-color: var(--vscode-progressBar-background);
+    border-radius: 10px;
 }
 
 progress::-webkit-progress-bar {
-  background-color: var(--vscode-input-background);
-  border-radius: 10px;
+    background-color: var(--vscode-input-background);
+    border-radius: 10px;
 }
 
 progress::-webkit-progress-inner-element {
-  border-radius: 10px;
+    border-radius: 10px;
 }
 
 .playback-slider {
