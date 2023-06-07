@@ -23,7 +23,7 @@
     "main": "./extension.js",
     "repository": {
         "type": "git",
-        "url": "https://github.com/Amaru8/Arctia2"
+        "url": "https://github.com/Amaru8/Arctia"
     },
     "contributes": {
         "commands": [
