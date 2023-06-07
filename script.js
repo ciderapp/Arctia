@@ -15,130 +15,187 @@ let heartBeat = 0;
 let currentMediaItem = {};
 let audioKind = "song";
 
-function postMessage(type, value = '') { tsvscode.postMessage({ type: type, value: value }); }
-
-function play() { dataSocket.send(JSON.stringify({ action: "play" })) }
-
-function pause() { dataSocket.send(JSON.stringify({ action: "pause" })) }
-
-function next() { dataSocket.send(JSON.stringify({ action: "next" })) }
-
-function previous() { dataSocket.send(JSON.stringify({ action: "previous" })) }
-
-function seekTo(time, adjust = true) {
-  if (adjust) { time = parseInt(time / 1000) }
-  dataSocket.send(JSON.stringify({ action: "seek", time: time }));
+function postMessageToExtension(type, value = '') {
+	tsvscode.postMessage({
+		type: type,
+		value: value
+	});
 }
 
+function play() {
+	postMessageToExtension('controlPlayback', 'play')
+	setTimeout(fetchPlaybackInfo, 250)
+}
+
+function pause() {
+	postMessageToExtension('controlPlayback', 'pause')
+	setTimeout(fetchPlaybackInfo, 250)
+}
+
+function next() {
+	postMessageToExtension('controlPlayback', 'next')
+	setTimeout(fetchPlaybackInfo, 250)
+}
+
+function previous() {
+	postMessageToExtension('controlPlayback', 'previous')
+	setTimeout(fetchPlaybackInfo, 250)
+}
+
+function seekTo(time, adjust = true) {
+	// TODO: Implement seeking
+	
+	// if (adjust) { time = parseInt(time / 1000) }
+	// dataSocket.send(JSON.stringify({ action: "seek", time: time }));
+}
+
+setInterval(fetchPlaybackInfo, 2500)
+
 async function heartTap() {
-    heartBeat += 1;
-    if (heartBeat == 5) {
-        debugElements.style.display = "block";
-        postMessage('developerMenuOpened');
-    }
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    heartBeat -= 1;
+	heartBeat += 1;
+	if (heartBeat == 5) {
+		debugElements.style.display = "block";
+		postMessageToExtension('developerMenuOpened');
+	}
+	await new Promise((resolve) => setTimeout(resolve, 1000));
+	heartBeat -= 1;
 }
 
 function heartHide() {
-    heartBeat = 0;
-    debugElements.style.display = "none";
-    postMessage('developerMenuClosed');
+	heartBeat = 0;
+	debugElements.style.display = "none";
+	postMessageToExtension('developerMenuClosed');
 }
 
-dataSocket = new WebSocket("ws://localhost:26369");
-dataSocket.onopen = (e) => {
-  dataSocket.onmessage = (e) => {
-    currentMediaItem = JSON.parse(e.data).data;
-    if (currentMediaItem.playParams.kind) { audioKind = currentMediaItem.playParams.kind }
-    if (audioKind == "song" || audioKind == "musicVideo" || audioKind == "uploadedVideo" || audioKind == "music-movie") {
-      // Playback Info
-      if (currentMediaItem.artistName && artistElement.innerText !== currentMediaItem.artistName) {
-        artistElement.innerText = currentMediaItem.artistName;
-      }
-      if (currentMediaItem.albumName && albumElement.innerText !== currentMediaItem.albumName) {
-        albumElement.innerText = currentMediaItem.albumName;
-      }
+async function fetchPlaybackInfo() {
+	postMessageToExtension('fetchPlaybackInfo');
+}
 
-      // Radio Notice
-      radioNoticeElement.style.display = "none";
+window.addEventListener('message', (event) => {
+	const message = event.data;
 
-      // Play/Pause Logic
-      if (currentMediaItem.status !== undefined) {
-        if (currentMediaItem.status == true) {
-          playButton.style.display = "none";
-          pauseButton.style.display = "inline-block";
-        } else {
-          pauseButton.style.display = "none";
-          playButton.style.display = "inline-block";
-        }
-      }
+	switch (message.type) {
+		case "playbackInfo":
+			setData(message.value);
+			break;
+	}
+});
 
-      // Next/Previous Logic
-      if (currentMediaItem.status !== undefined) {
-        nextButton.style.display = "inline-block";
-        previousButton.style.display = "inline-block";
-      }
+async function setData(data) {
+	const playbackInfo = data;
 
-      // Playback Slider
-      if (playbackSlider.max == null) {
-        playbackSlider.style.display = "none";
-      }
-      if (currentMediaItem.durationInMillis) {
-        if (playbackSlider.style.display == "none") {
-          playbackSlider.style.display = "block";
-        }
-        playbackSlider.max = currentMediaItem.durationInMillis;
-      }
-      if (currentMediaItem.remainingTime && currentMediaItem.durationInMillis) {
-        if (playbackSlider.style.display == "none") {
-          playbackSlider.style.display = "block";
-        }
-        playbackSlider.value = currentMediaItem.durationInMillis - currentMediaItem.remainingTime;
-      }
+	currentMediaItem = playbackInfo.info;
 
-    } else if (audioKind == "radioStation") {
-      radioNoticeElement.style.display = "block";
-      artistElement.innerText = "Radio Station";
+	if (!currentMediaItem) return;
 
-      // Hide Not Working Elements
-      albumElement.innerText = "";
-      albumLinkElement.href = "";
-      playButton.style.display = "none";
-      pauseButton.style.display = "none";
-      nextButton.style.display = "none";
-      previousButton.style.display = "none";
-      playbackSlider.style.display = "none";
-    }
+	if (currentMediaItem.playParams.kind) {
+		audioKind = currentMediaItem.playParams.kind
+	}
 
-    // Artwork URL
-    if (currentMediaItem.url && currentMediaItem.url.appleMusic.length > 0 && audioKind == "song") {
-      albumLinkElement.href = currentMediaItem.url.appleMusic;
-    } else {
-      albumLinkElement.href = "";
-    }
+	if (audioKind == "song" || audioKind == "musicVideo" || audioKind == "uploadedVideo" || audioKind == "music-movie") {
+		// Playback Info
+		if (currentMediaItem.artistName && artistElement.innerText !== currentMediaItem.artistName) {
+			if (artistElement.style.display == "none") {
+				artistElement.style.display = "block";
+			}
+			artistElement.innerText = currentMediaItem.artistName;
+		} else if (!currentMediaItem.artistName) {
+			artistElement.style.display = "none";
+		}
 
-    // Song Name & No Title Check
-    if (currentMediaItem.name && nameElement.innerText !== currentMediaItem.name) {
-      nameElement.innerText = currentMediaItem.name;
-      if (nameElement.innerText == "No Title Found") {
-        artistElement.innerText = "";
-        albumElement.innerText = "";
-        artworkElement.style.display = "none";
-        artworkElement.src = "";
-        playbackSlider.style.display = "none";
-      }
-    }
+		if (currentMediaItem.albumName && albumElement.innerText !== currentMediaItem.albumName) {
+			if (albumElement.style.display == "none") {
+				albumElement.style.display = "block";
+			}
+			albumElement.innerText = currentMediaItem.albumName;
+		} else if (!currentMediaItem.albumName) {
+			albumElement.style.display = "none";
+		}
 
-    // Album Artwork
-    if (currentMediaItem.artwork && currentMediaItem.artwork.url.length > 0) {
-      artworkElement.src = currentMediaItem.artwork.url.replace('{w}', 600).replace('{h}', 600);
-      artworkElement.style.display = "block";
-    }
-  }
+		// Radio Notice
+		radioNoticeElement.style.display = "none";
+		// Play/Pause Logic
+		if (currentMediaItem.isPlaying !== undefined) {
+			if (currentMediaItem.isPlaying == true) {
+				playButton.style.display = "none";
+				pauseButton.style.display = "inline-block";
+			} else {
+				pauseButton.style.display = "none";
+				playButton.style.display = "inline-block";
+			}
+		}
+		// Next/Previous Logic
+		if (currentMediaItem.isPlaying !== undefined) {
+			nextButton.style.display = "inline-block";
+			previousButton.style.display = "inline-block";
+		}
+		// Playback Slider
+		if (playbackSlider.max == null) {
+			playbackSlider.style.display = "none";
+		}
+		if (currentMediaItem.durationInMillis) {
+			if (playbackSlider.style.display == "none") {
+				playbackSlider.style.display = "block";
+			}
+			playbackSlider.max = currentMediaItem.durationInMillis;
+		}
+		if (currentMediaItem.remainingTime && currentMediaItem.durationInMillis) {
+			if (playbackSlider.style.display == "none") {
+				playbackSlider.style.display = "block";
+			}
+			playbackSlider.value = currentMediaItem.durationInMillis - currentMediaItem.remainingTime;
+		}
+	} else if (audioKind == "radioStation") {
+		radioNoticeElement.style.display = "block";
 
-  dataSocket.onerror = (e) => {
-    console.error(e);
-    postMessage('dataSocketError');
-  }
+		if (currentMediaItem.artistName && currentMediaItem.editorialNotes.name) {
+			if (artistElement.innerText !== currentMediaItem.artistName + " " + "(" + currentMediaItem.editorialNotes.name + ")") {
+				artistElement.innerText = currentMediaItem.artistName + " " + "(" + currentMediaItem.editorialNotes.name + ")";
+			}
+		} else {
+			artistElement.innerText = "Radio Station"
+		}
+
+		if (currentMediaItem.albumName && albumElement.innerText !== currentMediaItem.albumName) {
+			if (albumElement.style.display == "none") {
+				albumElement.style.display = "block";
+			}
+			albumElement.innerText = currentMediaItem.albumName;
+		} else if (!currentMediaItem.albumName) {
+			albumElement.style.display = "none";
+		}
+
+		// Hide Not Working Elements
+		playButton.style.display = "none";
+		pauseButton.style.display = "none";
+		nextButton.style.display = "none";
+		previousButton.style.display = "none";
+		playbackSlider.style.display = "none";
+	}
+	// Artwork URL
+	if (currentMediaItem.url && currentMediaItem.url.appleMusic.length > 0 && audioKind == "song") {
+		if (albumLinkElement.style.pointerEvents == "none") {
+			albumLinkElement.style.pointerEvents = "auto";
+		}
+		albumLinkElement.href = currentMediaItem.url.appleMusic;
+	} else {
+		albumLinkElement.style.pointerEvents = "none";
+		albumLinkElement.href = "";
+	}
+	// Song Name & No Title Check
+	if (currentMediaItem.name && nameElement.innerText !== currentMediaItem.name) {
+		nameElement.innerText = currentMediaItem.name;
+		if (nameElement.innerText == "No Title Found") {
+			artistElement.innerText = "";
+			albumElement.innerText = "";
+			artworkElement.style.display = "none";
+			artworkElement.src = "";
+			playbackSlider.style.display = "none";
+		}
+	}
+	// Album Artwork
+	if (currentMediaItem.artwork && currentMediaItem.artwork.url.length > 0) {
+		artworkElement.src = currentMediaItem.artwork.url.replace('{w}', 600).replace('{h}', 600);
+		artworkElement.style.display = "block";
+	}
 }

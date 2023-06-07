@@ -1,6 +1,6 @@
-# Project Arctia (Beta)
+# Arctia
 
-**Arctia** is a remote controller for [Cider](https://cider.sh), the open-source Apple Music client.
+**Arctia** is a remote controller for [Cider 2](https://cider.sh), the open-source Apple Music client.
 
 
 ## Contributing

@@ -1,6 +1,6 @@
 const vscode = require('vscode');
 const SidebarProvider = require('./sidebar');
-const WebSocket = require('ws');
+const { default: fetch } = require('node-fetch');
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -11,43 +11,64 @@ function activate(context) {
 		vscode.window.registerWebviewViewProvider("arctia-sidebar", sidebarWebview)
 	);
 
-	commandsSocket = new WebSocket(`ws://localhost:26369`);
-	commandsSocket.onopen = () => {
-		vscode.window.showInformationMessage('Arctia successfully connected to Cider.');
-		commandsSocket.onclose = () => {
-			vscode.window.showInformationMessage('Arctia disconnected from Cider.');
-		}
-		commandsSocket.onerror = (e) => {
-			console.error(e);
-			vscode.window.showErrorMessage('Arctia connection error. Details can be found in the console.');
-		}
-		commandsSocket.onmessage = (e) => {
-			messageData = e
-		}
-	}
+	// commandsSocket = new WebSocket(`ws://localhost:10769`);
+	// commandsSocket.onopen = () => {
+	// 	vscode.window.showInformationMessage('Arctia successfully connected to Cider 2.');
+	// 	commandsSocket.onclose = () => {
+	// 		vscode.window.showInformationMessage('Arctia disconnected from Cider 2.');
+	// 	}
+	// 	commandsSocket.onerror = (e) => {
+	// 		console.error(e);
+	// 		vscode.window.showErrorMessage('Arctia connection error. Details can be found in the console.');
+	// 	}
+	// 	commandsSocket.onmessage = (e) => {
+	// 		messageData = e
+	// 	}
+	// }
 
-	context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function () {
+	context.subscriptions.push(vscode.commands.registerCommand('arctia.playpause', function() {
 		playPause();
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('arctia.nextSong', function () {
+	context.subscriptions.push(vscode.commands.registerCommand('arctia.nextSong', function() {
 		next();
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('arctia.previousSong', function () {
+	context.subscriptions.push(vscode.commands.registerCommand('arctia.previousSong', function() {
 		previous();
-	}));	
+	}));
 }
 
 function deactivate() {}
 
-function playPause() { commandsSocket.send(JSON.stringify({ action: "playpause" })) }
+function playPause() {
+	comRPC("GET", "playPause")
+}
 
-function next() { commandsSocket.send(JSON.stringify({ action: "next" })) }
+function next() {
+	comRPC("GET", "next")
+}
 
-function previous() { commandsSocket.send(JSON.stringify({ action: "previous" })) }
+function previous() {
+	comRPC("GET", "previous")
+}
 
 module.exports = {
 	activate,
 	deactivate
+}
+
+// RPC Function for Key Events
+async function comRPC(method, request) {
+	return fetch('http://[::1]:10769/' + request, {
+			method: method,
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		})
+		.then(response => response.json())
+		.then(json => {
+			return json;
+		})
+		.catch(error => console.debug("[DEBUG] [ERROR] An error occurred while processing the request:", error));
 }

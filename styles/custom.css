@@ -9,6 +9,12 @@
 
 .album-artwork {
     border-radius: 2%;
+    -webkit-user-drag: none;
+    margin: 0 auto;
+}
+
+.album-link {
+    -webkit-user-drag: none;
 }
 
 .radio-notice {
@@ -33,6 +39,11 @@
 
 .name {
     margin-top: 5px;
+    user-select: text;
+}
+
+.artist, .album {
+    user-select: text;
 }
 
 .debug {
@@ -45,10 +56,7 @@
    bottom: 1em;
    width: 100%;
    text-align: center;
-}
-
-.playback-slider {
-    margin-top: 10px;
+   cursor: default;
 }
 
 .debug {
@@ -72,8 +80,45 @@
 	padding: 0px !important;
     width: auto !important;
 	text-align: center !important;
-	outline: 0px !important;
+    outline: 0px !important;
 	outline-offset: 0px !important;
 	color: black !important;
 	background: none !important;
+    cursor: default !important;
+}
+
+* {
+    user-select: none;
+}
+
+/* CSS styles for the progress element */
+progress {
+    display: block;
+    width: 100%;
+    -webkit-appearance: none;
+    height: 8px;
+}
+
+progress::-webkit-progress-value { 
+  background-color: var(--vscode-progressBar-background);
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+  background-color: var(--vscode-input-background);
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-inner-element {
+  border-radius: 10px;
+}
+
+.playback-slider {
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
+.playback-slider-container {
+    width: 98%;
+    margin: 0 auto;
 }
