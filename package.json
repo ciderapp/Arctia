@@ -1,22 +1,22 @@
 {
-    "name": "arctia",
+    "name": "cider-arctia",
     "version": "2.0.0",
     "publisher": "Cider Collective",
     "engines": {
         "vscode": "^1.66.0"
     },
     "license": "AGPL-3.0-only",
-    "displayName": "Arctia",
-    "description": "Arctia is a remote controller for Cider 2, the open-source Apple Music client.",
+    "displayName": "Cider Arctia",
+    "description": "Cider's official VS Code implementation for playback management and information.",
     "categories": [
         "Other"
     ],
     "keywords": [
-        "arctia",
+        "cider",
         "music",
         "remote",
         "controller",
-        "cider"
+        "arctia"
     ],
     "icon": "images/logo.png",
     "preview": true,
@@ -28,16 +28,16 @@
     "contributes": {
         "commands": [
             {
-                "command": "arctia.playpause",
-                "title": "Arctia: Play/Pause"
+                "command": "cider-arctia.playpause",
+                "title": "Cider: Play/Pause"
             },
             {
-                "command": "arctia.nextSong",
-                "title": "Arctia: Next Song"
+                "command": "cider-arctia.nextSong",
+                "title": "Cider: Next Song"
             },
             {
-                "command": "arctia.previousSong",
-                "title": "Arctia: Previous Song"
+                "command": "cider-arctia.previousSong",
+                "title": "Cider: Previous Song"
             }
         ],
         "viewsContainers": {
@@ -61,12 +61,6 @@
             ]
         }
     },
-    "activationEvents": [
-        "onView:arctia-sidebar",
-        "onCommand:arctia.playpause",
-        "onCommand:arctia.nextSong",
-        "onCommand:arctia.previousSong"
-    ],
     "devDependencies": {
         "@vscode/test-electron": "^2.1.3",
         "glob": "^7.2.0",

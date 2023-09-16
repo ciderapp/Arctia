@@ -1,10 +1,9 @@
-# Arctia
+# Cider Arctia
 
-**Arctia** is a remote controller for [Cider 2](https://cider.sh), the open-source Apple Music client.
-
+[Cider](https://cider.sh)'s official **VS Code** implementation for playback management and information. 
 
 ## Contributing
-1. Fork **Arctia**!
+1. Fork **Cider Arctia**!
 2. Create your improvement branch: `git checkout -b improvement-1`
 3. Make your changes
 4. Commit your changes: `git commit -am 'Added a new feature'`

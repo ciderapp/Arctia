@@ -103,3 +103,7 @@ progress::-webkit-progress-inner-element {
     width: 98%;
     margin: 0 auto;
 }
+
+body {
+    padding-top: 20px;
+}
