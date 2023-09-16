@@ -111,10 +111,6 @@ class SidebarProvider {
                 <h2 class="name"> </h2>
                 <h3 class="artist"> </h3>
                 <p class="album"> </p>
-                <div class="playback-slider-container">
-                    <!-- <input class="playback-slider" type="range" id="playbackProgress" min="0" oninput="seekTo(playbackSlider.value);"> -->
-                    <progress class="playback-slider" id="playbackProgress" min="0"></progress>
-                </div>
                 <div class="playback-buttons">
                     <button class="playback-button play" onclick="play()">Play</button>
                     <button class="playback-button pause" onclick="pause()">Pause</button>

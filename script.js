@@ -4,7 +4,6 @@ let albumLinkElement = document.querySelector(".album-link");
 let nameElement = document.querySelector(".name");
 let artistElement = document.querySelector(".artist");
 let albumElement = document.querySelector(".album");
-let playbackSlider = document.querySelector(".playback-slider");
 let playButton = document.querySelector(".play");
 let pauseButton = document.querySelector(".pause");
 let nextButton = document.querySelector(".next");
@@ -53,7 +52,7 @@ function seekTo(time, adjust = true) {
     // dataSocket.send(JSON.stringify({ action: "seek", time: time }));
 }
 
-setInterval(fetchPlaybackInfo, 2500)
+setInterval(fetchPlaybackInfo, 2000)
 
 async function heartTap() {
     heartBeat += 1;
@@ -133,22 +132,6 @@ async function setData(data) {
             nextButton.style.display = "inline-block";
             previousButton.style.display = "inline-block";
         }
-        // Playback Slider
-        if (playbackSlider.max == null) {
-            playbackSlider.style.display = "none";
-        }
-        if (currentMediaItem.durationInMillis) {
-            if (playbackSlider.style.display == "none") {
-                playbackSlider.style.display = "block";
-            }
-            playbackSlider.max = currentMediaItem.durationInMillis;
-        }
-        if (currentMediaItem.remainingTime && currentMediaItem.durationInMillis) {
-            if (playbackSlider.style.display == "none") {
-                playbackSlider.style.display = "block";
-            }
-            playbackSlider.value = currentMediaItem.durationInMillis - currentMediaItem.remainingTime;
-        }
     } else if (audioKind == "radioStation") {
         radioNoticeElement.style.display = "block";
         
@@ -174,7 +157,6 @@ async function setData(data) {
         pauseButton.style.display = "none";
         nextButton.style.display = "none";
         previousButton.style.display = "none";
-        playbackSlider.style.display = "none";
     }
     // Artwork URL
     if (currentMediaItem.url && currentMediaItem.url.appleMusic.length > 0 && audioKind == "song") {
@@ -194,7 +176,6 @@ async function setData(data) {
             albumElement.innerText = "";
             artworkElement.style.display = "none";
             artworkElement.src = "";
-            playbackSlider.style.display = "none";
         }
     }
     // Album Artwork

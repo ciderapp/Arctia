@@ -94,16 +94,6 @@ progress::-webkit-progress-inner-element {
     border-radius: 10px;
 }
 
-.playback-slider {
-    margin-top: 16px;
-    margin-bottom: 24px;
-}
-
-.playback-slider-container {
-    width: 98%;
-    margin: 0 auto;
-}
-
 body {
     padding-top: 20px;
 }
