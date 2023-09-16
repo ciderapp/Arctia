@@ -1,9 +1,9 @@
 {
     "name": "cider-arctia",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "publisher": "Cider Collective",
     "engines": {
-        "vscode": "^1.66.0"
+        "vscode": "^1.82.0"
     },
     "license": "AGPL-3.0-only",
     "displayName": "Cider Arctia",
