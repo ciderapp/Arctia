@@ -7,7 +7,13 @@ const { default: fetch } = require('node-fetch');
 */
 function activate(context) {
     const sidebarWebview = new SidebarProvider(context.extensionUri);
-    context.subscriptions.push(vscode.window.registerWebviewViewProvider("arctia-sidebar", sidebarWebview));
+    context.subscriptions.push(
+        vscode.window.registerWebviewViewProvider("arctia-sidebar", sidebarWebview, {
+            webviewOptions: {
+                retainContextWhenHidden: true
+            }
+        })
+    );
 
     // commandsSocket = new WebSocket(`ws://localhost:10769`);
     // commandsSocket.onopen = () => {
@@ -23,46 +29,43 @@ function activate(context) {
     // 		messageData = e
     // 	}
     // }
-    
-    context.subscriptions.push(vscode.commands.registerCommand('cider-arctia.playpause', function() {
+
+    context.subscriptions.push(vscode.commands.registerCommand('cider-arctia.playpause', function () {
         playPause();
     }));
-    
-    context.subscriptions.push(vscode.commands.registerCommand('cider-arctia.nextSong', function() {
+
+    context.subscriptions.push(vscode.commands.registerCommand('cider-arctia.nextSong', function () {
         next();
     }));
-    
-    context.subscriptions.push(vscode.commands.registerCommand('cider-arctia.previousSong', function() {
+
+    context.subscriptions.push(vscode.commands.registerCommand('cider-arctia.previousSong', function () {
         previous();
     }));
 }
-    
-function deactivate() {}
+
+function deactivate() { }
 
 function playPause() {
-    comRPC("GET", "playPause")
+    comRPC("POST", "api/v1/playback/playpause")
 }
 
 function next() {
-    comRPC("GET", "next")
+    comRPC("POST", "api/v1/playback/next")
 }
 
 function previous() {
-    comRPC("GET", "previous")
+    comRPC("POST", "api/v1/playback/previous")
 }
 
 async function comRPC(method, request) {
-    return fetch('http://[::1]:10769/' + request, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    return fetch('http://localhost:10767/' + request, {
+        method: method
     })
-    .then(response => response.json())
-    .then(json => {
-        return json;
-    })
-    .catch(error => console.debug("[DEBUG] [ERROR] An error occurred while processing the request:", error));
+        .then(response => response.json())
+        .then(json => {
+            return json;
+        })
+        .catch(error => console.warn("[WARNING] An error occurred while processing the request:", error));
 }
 
 module.exports = {

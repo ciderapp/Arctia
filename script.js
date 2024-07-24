@@ -1,6 +1,5 @@
 const tsvscode = acquireVsCodeApi();
 let artworkElement = document.querySelector(".album-artwork");
-let albumLinkElement = document.querySelector(".album-link");
 let nameElement = document.querySelector(".name");
 let artistElement = document.querySelector(".artist");
 let albumElement = document.querySelector(".album");
@@ -47,7 +46,7 @@ function previous() {
 
 function seekTo(time, adjust = true) {
     // TODO: Implement seeking
-    
+
     // if (adjust) { time = parseInt(time / 1000) }
     // dataSocket.send(JSON.stringify({ action: "seek", time: time }));
 }
@@ -58,7 +57,7 @@ async function heartTap() {
     heartBeat += 1;
     if (heartBeat == 5) {
         debugElements.style.display = "block";
-        postMessageToExtension('developerMenuOpened');
+        postMessageToExtension('debugMenuOpened');
     }
     await new Promise((resolve) => setTimeout(resolve, 1000));
     heartBeat -= 1;
@@ -67,7 +66,7 @@ async function heartTap() {
 function heartHide() {
     heartBeat = 0;
     debugElements.style.display = "none";
-    postMessageToExtension('developerMenuClosed');
+    postMessageToExtension('debugMenuClosed');
 }
 
 async function fetchPlaybackInfo() {
@@ -76,36 +75,36 @@ async function fetchPlaybackInfo() {
 
 window.addEventListener('message', (event) => {
     const message = event.data;
-    
+
     switch (message.type) {
         case "playbackInfo":
-        setData(message.value);
-        break;
+            setData(message.value);
+            break;
     }
 });
 
 async function setData(data) {
-    const playbackInfo = data;
-    
-    currentMediaItem = playbackInfo.info;
-    
+    currentMediaItem = data;
+
     if (!currentMediaItem) return;
-    
+
     if (currentMediaItem.playParams.kind) {
         audioKind = currentMediaItem.playParams.kind
     }
-    
+
     if (audioKind == "song" || audioKind == "musicVideo" || audioKind == "uploadedVideo" || audioKind == "music-movie") {
         // Playback Info
-        if (currentMediaItem.artistName && artistElement.innerText !== currentMediaItem.artistName) {
+        if (currentMediaItem.artistName) {
             if (artistElement.style.display == "none") {
                 artistElement.style.display = "block";
             }
-            artistElement.innerText = currentMediaItem.artistName;
+            if (artistElement.innerText !== currentMediaItem.artistName) {
+                artistElement.innerText = currentMediaItem.artistName;
+            }
         } else if (!currentMediaItem.artistName) {
             artistElement.style.display = "none";
         }
-        
+
         if (currentMediaItem.albumName && albumElement.innerText !== currentMediaItem.albumName) {
             if (albumElement.style.display == "none") {
                 albumElement.style.display = "block";
@@ -114,7 +113,7 @@ async function setData(data) {
         } else if (!currentMediaItem.albumName) {
             albumElement.style.display = "none";
         }
-        
+
         // Radio Notice
         radioNoticeElement.style.display = "none";
         // Play/Pause Logic
@@ -128,55 +127,46 @@ async function setData(data) {
             }
         }
         // Next/Previous Logic
-        if (currentMediaItem.isPlaying !== undefined) {
+        if (currentMediaItem.state !== undefined || currentMediaItem.state !== undefined) {
             nextButton.style.display = "inline-block";
             previousButton.style.display = "inline-block";
         }
+
+        if (currentMediaItem.name && nameElement.innerText !== currentMediaItem.name) {
+            nameElement.innerText = currentMediaItem.name;
+        }
     } else if (audioKind == "radioStation") {
         radioNoticeElement.style.display = "block";
-        
-        if (currentMediaItem.artistName && currentMediaItem.editorialNotes.name) {
-            if (artistElement.innerText !== currentMediaItem.artistName + " " + "(" + currentMediaItem.editorialNotes.name + ")") {
-                artistElement.innerText = currentMediaItem.artistName + " " + "(" + currentMediaItem.editorialNotes.name + ")";
+
+        if (currentMediaItem.editorialNotes.name && nameElement.innerText !== currentMediaItem.editorialNotes.name) {
+            nameElement.innerText = currentMediaItem.editorialNotes.name;
+        }
+
+        if (currentMediaItem.editorialNotes.short) {
+            if (artistElement.innerText !== currentMediaItem.editorialNotes.short) {
+                if (artistElement.style.display == "none") {
+                    artistElement.style.display = "block";
+                }
+                artistElement.innerText = currentMediaItem.editorialNotes.short;
             }
         } else {
-            artistElement.innerText = "Radio Station"
+            artistElement.style.display = "none";
         }
-        
-        if (currentMediaItem.albumName && albumElement.innerText !== currentMediaItem.albumName) {
-            if (albumElement.style.display == "none") {
-                albumElement.style.display = "block";
-            }
-            albumElement.innerText = currentMediaItem.albumName;
-        } else if (!currentMediaItem.albumName) {
-            albumElement.style.display = "none";
-        }
-        
+
+        albumElement.innerText = "LIVE - Radio Station";
+
         // Hide Not Working Elements
         playButton.style.display = "none";
         pauseButton.style.display = "none";
         nextButton.style.display = "none";
         previousButton.style.display = "none";
     }
-    // Artwork URL
-    if (currentMediaItem.url && currentMediaItem.url.appleMusic.length > 0 && audioKind == "song") {
-        if (albumLinkElement.style.pointerEvents == "none") {
-            albumLinkElement.style.pointerEvents = "auto";
-        }
-        albumLinkElement.href = currentMediaItem.url.appleMusic;
-    } else {
-        albumLinkElement.style.pointerEvents = "none";
-        albumLinkElement.href = "";
-    }
     // Song Name & No Title Check
-    if (currentMediaItem.name && nameElement.innerText !== currentMediaItem.name) {
-        nameElement.innerText = currentMediaItem.name;
-        if (nameElement.innerText == "No Title Found") {
-            artistElement.innerText = "";
-            albumElement.innerText = "";
-            artworkElement.style.display = "none";
-            artworkElement.src = "";
-        }
+    if (currentMediaItem.name && nameElement.innerText !== currentMediaItem.name && nameElement.innerText == "No Title Found") {
+        artistElement.innerText = "";
+        albumElement.innerText = "";
+        artworkElement.style.display = "none";
+        artworkElement.src = "";
     }
     // Album Artwork
     if (currentMediaItem.artwork && currentMediaItem.artwork.url.length > 0) {

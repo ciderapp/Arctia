@@ -1,33 +1,70 @@
 const vscode = require('vscode')
+const { io } = require("socket.io-client");
 const { default: fetch } = require('node-fetch');
 
+let CurrentMediaItem;
+setInitialData();
+
 async function comRPC(method, request) {
-    return fetch('http://[::1]:10769/' + request, {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json'
-        }
+    console.debug("[DEBUG] Sending request to Cider REST:", request)
+    return fetch('http://localhost:10767/' + request, {
+        method: method
     })
-    .then(response => response.json())
-    .then(json => {
-        return json;
-    })
-    .catch(error => console.debug("[DEBUG] [ERROR] An error occurred while processing the request:", error));
+        .then(response => response.json())
+        .then(json => {
+            return json;
+        })
+        .catch(error => console.warn("[WARNING] An error occurred while processing the request:", error));
 }
 
-async function grabPlaybackInfo() {
-    return fetch('http://[::1]:10769/currentPlayingSong', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => response.json())
-    .then(json => {
-        return json;
-    })
-    .catch(error => console.debug("[DEBUG] [ERROR] An error occurred while processing the request:", error));
+async function setInitialData() {
+    console.log("[INFO] Fetching initial data from Cider REST.");
+    let initialData = await comRPC("GET", "api/v1/playback/now-playing");
+    CurrentMediaItem = initialData["info"];
 }
+
+const socket = io("http://localhost:10767", {
+    transports: ["websocket"]
+});
+
+socket.on("connect", async () => {
+    console.log("[INFO] Connected to Cider with Socket.IO.");
+});
+
+socket.on("disconnect", () => {
+    console.log("[INFO] Disconnected from Cider with Socket.IO.");
+});
+
+socket.on("error", (error) => {
+    console.warn("[WARNING] An error occurred while processing the request to Socket.IO for Cider:", error);
+});
+
+socket.on("API:Playback", (message) => {
+    switch (message.type) {
+        case "playbackStatus.playbackTimeDidChange":
+            CurrentMediaItem["isPlaying"] = true;
+            break;
+        case "playbackStatus.nowPlayingItemDidChange":
+            CurrentMediaItem = message.data;
+            break;
+
+        case "playbackStatus.playbackStateDidChange":
+            CurrentMediaItem = message.data["attributes"];
+            CurrentMediaItem["state"] = message.data["state"];
+            switch (message.data["state"]) {
+                case "playing":
+                    CurrentMediaItem["isPlaying"] = true;
+                    break;
+
+                case "paused":
+                    CurrentMediaItem["isPlaying"] = false;
+                    break;
+            }
+
+        default:
+            break;
+    }
+});
 
 class SidebarProvider {
 
@@ -47,23 +84,37 @@ class SidebarProvider {
                 case "dataSocketError": {
                     vscode.window.showErrorMessage("Arctia connection error, details logged to console.");
                 }
-                case "developerMenuOpened": {
-                    vscode.window.showErrorMessage("CLOSE THE DEVELOPMENT MENU, unless you know what are you doing, as it is made for developers only.");
+                case "debugMenuOpened": {
+                    vscode.window.showWarningMessage("Hello World! You've opened the debug menu.");
                     vscode.commands.executeCommand('workbench.action.toggleDevTools');
                     break;
                 }
-                case "developerMenuClosed": {
-                    vscode.window.showInformationMessage("Developer menu closed.");
+                case "debugMenuClosed": {
+                    vscode.window.showInformationMessage("Debug menu closed.");
                     break;
                 }
                 case "controlPlayback": {
-                    if (mData.value == "play" || mData.value == "pause" || mData.value == "next" || mData.value == "previous") {
-                        comRPC("GET", mData.value);
+                    switch (mData.value) {
+                        case "play":
+                            comRPC("POST", "api/v1/playback/play");
+                            break;
+                        case "pause":
+                            comRPC("POST", "api/v1/playback/pause");
+                            break;
+                        case "next":
+                            comRPC("POST", "api/v1/playback/next");
+                            break;
+                        case "previous":
+                            comRPC("POST", "api/v1/playback/previous");
+                            break;
+                        default:
+                            console.error("Invalid playback control command, please report this to the developer.");
+                            break;
                     }
                     break;
                 }
                 case "fetchPlaybackInfo": {
-                    const playbackInfo = await grabPlaybackInfo();
+                    const playbackInfo = CurrentMediaItem;
                     webviewView.webview.postMessage({
                         type: "playbackInfo",
                         value: playbackInfo
@@ -105,9 +156,7 @@ class SidebarProvider {
                 <link href="${stylesCustomUri}" rel="stylesheet">
             </head>
             <body>
-                <a class="album-link">
-                    <img class="album-artwork" width="600" height="600">
-                </a>
+                <img class="album-artwork" width="600" height="600">
                 <h2 class="name"> </h2>
                 <h3 class="artist"> </h3>
                 <p class="album"> </p>
@@ -118,13 +167,11 @@ class SidebarProvider {
                     <button class="playback-button previous" onclick="previous()">Previous Song</button>
                 </div>
                 <div class="debug">
-                    <h2 class="debug-header">Developer Options</h2>
+                    <h2 class="debug-header">Debug Options</h2>
                     <button class="debug-button" onclick="console.log(currentMediaItem)">Log Playback Info</button>
-                    <button class="debug-button" onclick="pause()">force pause</button>
-                    <button class="debug-button" onclick="play()">force play</button>
-                    <button class="debug-button" onclick="next()">force next</button>
-                    <button class="debug-button" onclick="previous()">force previous</button>
-                    <button class="debug-button" onclick="heartHide()">Close Developer Menu</button>
+                    <button class="debug-button" onclick="pause()">Force Pause</button>
+                    <button class="debug-button" onclick="play()">Force Play</button>
+                    <button class="debug-button" onclick="heartHide()">Close Debug Menu</button>
                 </div>
                 <div class="footer">
                     <p class="radio-notice">Playback controls are currently not supported during radio playback.</p>
